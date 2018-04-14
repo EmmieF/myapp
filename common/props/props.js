@@ -12,6 +12,7 @@ let Props = React.createClass({
             type:'defaule type'
         }
     },
+    //这是props类型
     propTypes:{
         name:React.PropTypes.string.isRequired,
         title:React.PropTypes.number
