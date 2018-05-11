@@ -42,6 +42,7 @@ let LiOne = React.createClass({
         return <li>这是第一个li {this.props.content}</li>
     }
 });
+
 let LiTwo = React.createClass({
     render:function () {
         return <li>这是第二个li {this.props.content}</li>
