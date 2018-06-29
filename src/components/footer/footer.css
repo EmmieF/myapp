@@ -1,0 +1,10 @@
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: #f7f7fa;
+}
+footer .weui-tabbar .weui-bar__item_on .weui-tabbar__label {
+  color: #fb1840;
+}

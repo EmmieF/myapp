@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import Footer from './../../components/footer/footer'
-class index extends Component{
+class about extends Component{
     render (){
-        return <div>index component
+        return <div>
+            about component
             <Footer />
         </div>
     }
 }
-export default index;
+export default about;
