@@ -1,18 +1,17 @@
-import App from './../App'
 import index from './../pages/index/index'
-import about from './../pages/about/index'
 import cart from './../pages/cart/index'
 import member from './../pages/member/index'
+import login from './../pages/login/index'
 const Router = [
     {
         path:'/',
         component:index,
     },{
+        path:'/login',
+        component:login
+    },{
         path:'/index',
         component:index,
-    },{
-        path:'/about',
-        component:about,
     },{
         path:'/cart',
         component:cart,

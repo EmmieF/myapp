@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Router, Route, browserHistory, hashHistory,Link,IndexRoute} from 'react-router'
+import {Router, browserHistory, Link} from 'react-router'
 import {TabBar,TabBarItem,TabBarIcon,TabBarLabel} from 'react-weui'
 import './footer.css'
 
@@ -10,43 +10,48 @@ import MeFillIcon from './../../assion/images/tabbar/member_active.png'
 import CartIcon from './../../assion/images/tabbar/cart.png'
 import CartFillIcon from './../../assion/images/tabbar/cart_active.png'
 
-class footer extends Component {
+export default class footer extends Component {
     state={
-        tab:0
+        pathIndex:0,
     };
+    pathnamearr=[
+        '/index','/cart','/me'
+    ];
     constructor(props){
         super(props);
-    };
+    }
     componentDidMount(){
-        console.log('componentDidMount');
-        console.log(this.Props);
+        // console.log('componentDidMount');
+        this.setState({
+            pathIndex:this.pathnamearr.indexOf(this.props.pathname)
+        })
     }
     componentWillUnmount(){
-        console.log('componentWillUnmount');
+        // console.log('componentWillUnmount');
     }
     render (){
         return <footer>
             <TabBar>
-                <TabBarItem active={this.state.tab == 0} onClick={e=>this.setState({tab:0})}>
+                <TabBarItem active={this.state.pathIndex == 0}>
                     <Link to="/index">
                         <TabBarIcon>
-                            <img src={this.state.tab==0?IndexFillIcon:IndexIcon}/>
+                            <img src={this.state.pathIndex==0?IndexFillIcon:IndexIcon}/>
                         </TabBarIcon>
                         <TabBarLabel>首页</TabBarLabel>
                     </Link>
                 </TabBarItem>
-                <TabBarItem active={this.state.tab == 1} onClick={e=>this.setState({tab:1})}>
+                <TabBarItem active={this.state.pathIndex == 1}>
                     <Link to="/cart">
                         <TabBarIcon>
-                            <img src={this.state.tab == 1?CartFillIcon:CartIcon}/>
+                            <img src={this.state.pathIndex == 1?CartFillIcon:CartIcon}/>
                         </TabBarIcon>
                         <TabBarLabel>购物车</TabBarLabel>
                     </Link>
                 </TabBarItem>
-                <TabBarItem active={this.state.tab == 3} onClick={e=>this.setState({tab:2})}>
+                <TabBarItem active={this.state.pathIndex == 2}>
                     <Link to="/me">
                         <TabBarIcon>
-                            <img src={this.state.tab == 3?MeFillIcon:MeIcon}/>
+                            <img src={this.state.pathIndex == 2?MeFillIcon:MeIcon}/>
                         </TabBarIcon>
                         <TabBarLabel>我的</TabBarLabel>
                     </Link>
@@ -55,4 +60,3 @@ class footer extends Component {
         </footer>
     }
 }
-export default footer;

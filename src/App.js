@@ -11,7 +11,6 @@ class App extends Component {
             <div className="App">
                 <Button>这是Button</Button>
                 <div><Link to='/index'>index</Link></div> 
-                <div><Link to='/about'>about</Link></div> 
             </div>
         );
     }
