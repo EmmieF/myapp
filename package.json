@@ -2,8 +2,9 @@
     "name": "myapp",
     "version": "0.1.0",
     "private": true,
-    
+    "proxy": "https://demo.vmcshop.com",
     "dependencies": {
+        "axios": "^0.18.0",
         "promise-polyfill": "^8.0.0",
         "react": "^16.3.1",
         "react-dom": "^16.3.1",

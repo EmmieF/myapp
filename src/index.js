@@ -1,14 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import 'whatwg-fetch'
+// import 'whatwg-fetch'
 // import Promise from 'promise-polyfill'
-import 'core-js/es6/promise'
+// import 'core-js/es6/promise'
+// import 'isomorphic-fetch'
 import {Router, browserHistory, hashHistory,Link,IndexRoute} from 'react-router'
 import routeconfig from './router/index'
 import 'weui'
 import 'react-weui/build/packages/react-weui.css'
 import './index.css'
+import axios from 'axios'
 import registerServiceWorker from './registerServiceWorker'
+
 
 ReactDOM.render((
     <Router history={browserHistory} routes={routeconfig}>

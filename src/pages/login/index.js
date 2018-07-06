@@ -19,38 +19,24 @@ export default class login extends Component {
         let obj = {
             uname:this.state.uanme,
             password:this.state.password,
-            forward:'',
+            vcode:''
         };
         let formData = new FormData();
         formData.append("uname",""+this.state.uanme+"");
         formData.append("password",""+this.state.password+"");
         formData.append("forward","");
-        utils._fetch.call(this,'https://huaboxiangdada.com/m/passport-post_login.html',{
-            method:'POST',
-            body:JSON.stringify(obj)
+        utils._fetch.call(this,'/m/passport-post_login.html',{
+            method:'post',
+            body:formData,
         },function(response){
             console.log(response,'responseresponse');
-        })
-
-        // fetch('https://huaboxiangdada.com/m/passport-post_login.html',
-        //     {
-        //         method:'POST',
-        //         body:formData,
-        //         mode:'no-cors'
-        //     }).then((response)=>{
-        //     console.log(response,'handle_submit');
-        // })
-        // ajax({
+        });
+        // utils._axios.call(this,{
         //     url:'/m/passport-post_login.html',
-        //     data:{
-        //         uname:this.state.inpval,
-        //         password:this.state.password,
-        //         forward:'',
-        //     },
         //     method:'POST',
-        //     success:function (res) {
-        //         console.log(res);
-        //     }
+        //     data:obj,
+        // },function (response) {
+        //     console.log(response,'responseresponse');
         // })
     }
     handle_uname(event){

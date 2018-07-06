@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Footer from './../../components/footer/footer'
 import List from './../../components/list/index'
 import {SearchBar,Swiper} from 'react-weui'
+import utils from './../../static/utils'
 class index extends Component{
     state = {
         defaultValue:''
@@ -10,9 +11,17 @@ class index extends Component{
         super(props)
     }
     componentDidMount(){
-        fetch('/m/list.html?keyword=11').then((response)=>{
+        utils._fetch('/m/list.html?keyword=11',{
+            method:'GET'
+        },function (response) {
             console.log(response, 'response');
-        })
+        });
+        // utils._axios({
+        //     url:'/m/list.html?keyword=11',
+        //     method:'get'
+        //     },function (res) {
+        //     console.log(res);
+        // })
     }
     evt_Handler_change(value,e){
 
