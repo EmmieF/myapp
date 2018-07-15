@@ -15,12 +15,12 @@ export default class login extends Component {
         this.handel_password = this.handel_password.bind(this);
     }
     handle_submit(){
-        let _this = this;
-        let obj = {
-            uname:this.state.uanme,
-            password:this.state.password,
-            vcode:''
-        };
+        // let _this = this;
+        // let obj = {
+        //     uname:this.state.uanme,
+        //     password:this.state.password,
+        //     vcode:''
+        // };
         let formData = new FormData();
         formData.append("uname",""+this.state.uanme+"");
         formData.append("password",""+this.state.password+"");

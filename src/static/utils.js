@@ -93,7 +93,6 @@ let _axios = function (params,callback) {
     }
     headers(params.headers);
     params.headers['content-type'] = 'application/x-www-form-urlencoded';
-    // params.headers['content-type'] = 'application/x-www-form-urlencoded';
     axios(params).then(function(response){
         let x_wxappstorage = response.headers['x-wxappstorage'] || false;
         if (x_wxappstorage) {
@@ -116,7 +115,24 @@ let _axios = function (params,callback) {
         callback(response);
     })
 };
+let price = function (_price) {
+    var _price = parseFloat(price);
+    if (isNaN(_price)) return price;
+    if (_price === 0) return '0.00';
+    _price = Math.round(_price * 100) / 100;
+    var _price_str = _price.toString();
+    var rs = _price_str.indexOf('.');
+    if (rs < 0) {
+        rs = _price_str.length;
+        _price_str += '.';
+    }
+    while (_price_str.length <= rs + 2) {
+        _price_str += '0';
+    }
+    return _price_str;
+};
 export default {
-    _fetch:_fetch,
-    _axios:_axios
+    _fetch,
+    _axios,
+    price
 }

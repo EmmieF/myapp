@@ -3,33 +3,75 @@ import Footer from './../../components/footer/footer'
 import List from './../../components/list/index'
 import {SearchBar,Swiper} from 'react-weui'
 import utils from './../../static/utils'
+
+const load_list = function(){
+    let _this = this,
+        filter = '',
+        keys = [];
+    if(Object.keys(_this.state.params).length > 0){
+        keys = Object.keys(_this.state.params);
+        keys.forEach((val,ind)=>{
+            filter += '&'+ val+'='+_this.state.params[val];
+        })
+    }
+    filter = filter.slice(1);
+    utils._axios({
+            url:'/m/list.html?'+filter,
+            method:'get',
+        },
+        function (res) {
+            _this.setState(res.data);
+        }
+    )
+};
+
 class index extends Component{
-    state = {
-        defaultValue:''
-    };
     constructor(props){
-        super(props)
-    }
-    componentDidMount(){
-        utils._fetch('/m/list.html?keyword=11',{
-            method:'GET'
-        },function (response) {
-            console.log(response, 'response');
-        });
-        // utils._axios({
-        //     url:'/m/list.html?keyword=11',
-        //     method:'get'
-        //     },function (res) {
-        //     console.log(res);
-        // })
-    }
-    evt_Handler_change(value,e){
+        super(props);
+        this.state = {
+            pagestyle:{paddingBottom:60},
+            defaultValue:'',
+            params:{
+                keyword:'',
+                page:1
+            },
+            data_list:[]
+        };
+        this.handler_change = this.handler_change.bind(this);
+        this.handler_scroll = this.handler_scroll.bind(this);
+        // this.initScroll = this.initScroll.bind(this);
 
     }
+    componentWillMount(){
+        load_list.call(this);
+    }
+    componentDidMount(){
+        this.initScroll();
+    }
+    handler_change(){
+
+    }
+    on_scroll(){
+        console.log(this);
+    }
+    onLoadMore(){
+
+    }
+    handler_scroll(){
+        console.log(333);
+    }
+    initScroll(){
+        let _this = this;
+        console.log(_this.refs, '############');
+        _this.refs.scroller.addEventListener('scroll',scrolling,false);
+        function scrolling() {
+            console.log(333);
+        }
+    }
     render (){
-        return <div>
+        return <div style={this.state.pagestyle} ref="scroller">
             <SearchBar
-                onChange={this.evt_Handler_change.bind(this)}
+                onChange={this.handler_change}
                 defaultValue={this.state.defaultValue}
                 placeholder='搜你想搜'
                 lang={{
@@ -46,7 +88,7 @@ class index extends Component{
                      alt=""/>
                 <div style={{ background: '#39CCCC' }} />
             </Swiper>
-            <List />
+            <List params={this.state.params} data_list={this.state.data_list}/>
             <Footer pathname={this.props.route.path} />
         </div>
     }
