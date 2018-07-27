@@ -5,24 +5,10 @@ import {SearchBar,Swiper} from 'react-weui'
 import utils from './../../static/utils'
 
 const load_list = function(){
-    let _this = this,
-        filter = '',
-        keys = [];
-    if(Object.keys(_this.state.params).length > 0){
-        keys = Object.keys(_this.state.params);
-        keys.forEach((val,ind)=>{
-            filter += '&'+ val+'='+_this.state.params[val];
-        })
-    }
-    filter = filter.slice(1);
-    utils._axios({
-            url:'/m/list.html?'+filter,
-            method:'get',
-        },
-        function (res) {
-            _this.setState(res.data);
-        }
-    )
+    let _this = this;
+    utils._fetch('/m/list.html',{method:'get',data:_this.state.params},function (res) {
+        _this.setState(res);
+    });
 };
 
 class index extends Component{

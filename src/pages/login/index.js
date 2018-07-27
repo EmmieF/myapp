@@ -1,43 +1,50 @@
 import React, {Component} from 'react'
+import {browserHistory} from 'react-router'
 import './index.css'
 import utils from './../../static/utils'
-import {} from 'react-weui'
+import {LoadMore,Toast} from 'react-weui'
 
 export default class login extends Component {
     constructor(props) {
         super(props);
         this.state = {
             uanme:'',
-            password:''
+            password:'',
+            showToast:false,
+            toast:{
+                icon:'loading',
+                toastText:'登录中...'
+            }
         };
         this.handle_submit = this.handle_submit.bind(this);
         this.handle_uname = this.handle_uname.bind(this);
         this.handel_password = this.handel_password.bind(this);
     }
     handle_submit(){
-        // let _this = this;
-        // let obj = {
-        //     uname:this.state.uanme,
-        //     password:this.state.password,
-        //     vcode:''
-        // };
-        let formData = new FormData();
-        formData.append("uname",""+this.state.uanme+"");
-        formData.append("password",""+this.state.password+"");
-        formData.append("forward","");
+        let toast = this.state.toast;
+        this.setState({
+            showToast:true
+        });
+        let obj = {
+            uname:this.state.uanme,
+            password:this.state.password,
+        };
         utils._fetch.call(this,'/m/passport-post_login.html',{
             method:'post',
-            body:formData,
-        },function(response){
-            console.log(response,'responseresponse');
+            data:obj,
+        },(res)=>{
+            if(res.success=='登录成功'){
+                browserHistory.push('/me');
+            }else {
+                toast.toastText = '登录失败';
+                this.setState(toast);
+                setTimeout(()=>{
+                    this.setState({
+                        showToast:false
+                    });
+                },1000)
+            }
         });
-        // utils._axios.call(this,{
-        //     url:'/m/passport-post_login.html',
-        //     method:'POST',
-        //     data:obj,
-        // },function (response) {
-        //     console.log(response,'responseresponse');
-        // })
     }
     handle_uname(event){
         this.setState({
@@ -67,6 +74,8 @@ export default class login extends Component {
                 </div>
             </div>
             <div className="btn" onClick={this.handle_submit}>登录</div>
+            <LoadMore showLine showDot>Emmie</LoadMore>
+            <Toast icon={this.state.toast.icon} show={this.state.showToast}>{this.state.toast.toastText}</Toast>
         </div>
     }
 }

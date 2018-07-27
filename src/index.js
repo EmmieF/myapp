@@ -12,7 +12,6 @@ import './index.css'
 import axios from 'axios'
 import registerServiceWorker from './registerServiceWorker'
 
-
 ReactDOM.render((
     <Router history={browserHistory} routes={routeconfig}>
     </Router>
