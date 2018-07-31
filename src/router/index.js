@@ -6,13 +6,11 @@ import login from './../pages/login/index'
 const Router = [
     {
         path:'/',
+        exact:true,
         component:index,
     },{
         path:'/login',
         component:login
-    },{
-        path:'/index',
-        component:index,
     },{
         path:'/cart',
         component:cart,

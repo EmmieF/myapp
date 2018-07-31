@@ -5,7 +5,7 @@ let getCookie = function(name){
     var arr = document.cookie.replace(/\s/g, "").split(';');
     for (var i = 0; i < arr.length; i++) {
         var tempArr = arr[i].split('=');
-        if (tempArr[0] == name) {
+        if (tempArr[0] === name) {
             return decodeURIComponent(tempArr[1]);
         }
     }
@@ -38,8 +38,7 @@ let headers = function(header){
     return header;
 };
 let _params = function (data) {
-    let _this = this,
-        filter = '',
+    let filter = '',
         keys = [];
     if(Object.keys(data).length > 0){
         keys = Object.keys(data);
@@ -57,7 +56,7 @@ let _fetch = function (url,{method='GET',data = {}},callback=()=>{}) {
         'Content-Type':'application/x-www-form-urlencoded',
         'X-Requested-isWXAPP':'YES',
     };
-    if(method.toUpperCase()==='GET'){
+    if(method.toUpperCase() === 'GET'){
         if(Object.keys(data).length > 0){
             url = url+'?'+_params(data);
         }
@@ -79,7 +78,6 @@ let _fetch = function (url,{method='GET',data = {}},callback=()=>{}) {
     });
 };
 let _axios = function (params,callback) {
-    let _this = this;
     if (!params.headers) {
         params.headers = {};
     }
@@ -96,7 +94,6 @@ let _axios = function (params,callback) {
             }
         }
         if (response.data && response.data.error) {
-            let res_error = response.data.error;
             let res_redirect = response.data.redirect;
             if (res_redirect && res_redirect.match(/passport-login/i)) {
                 //服务端登录状态丢失,重新登录
@@ -108,7 +105,7 @@ let _axios = function (params,callback) {
     })
 };
 let price = function (_price) {
-    var _price = parseFloat(price);
+    _price = parseFloat(_price);
     if (isNaN(_price)) return price;
     if (_price === 0) return '0.00';
     _price = Math.round(_price * 100) / 100;

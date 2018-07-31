@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import {browserHistory} from 'react-router'
+import {Indicator,MessageBox} from 'bee-mobile'
 import './index.css'
 import utils from './../../static/utils'
-import {LoadMore,Toast} from 'react-weui'
 
 export default class login extends Component {
     constructor(props) {
@@ -10,39 +10,39 @@ export default class login extends Component {
         this.state = {
             uanme:'',
             password:'',
-            showToast:false,
-            toast:{
-                icon:'loading',
-                toastText:'登录中...'
-            }
         };
         this.handle_submit = this.handle_submit.bind(this);
         this.handle_uname = this.handle_uname.bind(this);
         this.handel_password = this.handel_password.bind(this);
     }
     handle_submit(){
-        let toast = this.state.toast;
-        this.setState({
-            showToast:true
-        });
         let obj = {
             uname:this.state.uanme,
             password:this.state.password,
         };
+        Indicator.show({
+            delay:3000,
+            message:'登录中...',
+            size:'sm',
+            type:'circleRoundFade',
+            onClose(res){
+            }
+        });
         utils._fetch.call(this,'/m/passport-post_login.html',{
             method:'post',
             data:obj,
         },(res)=>{
-            if(res.success=='登录成功'){
+            if(res.success === '登录成功'){
+                Indicator.close();
                 browserHistory.push('/me');
             }else {
-                toast.toastText = '登录失败';
-                this.setState(toast);
-                setTimeout(()=>{
-                    this.setState({
-                        showToast:false
-                    });
-                },1000)
+                Indicator.close();
+                MessageBox.confirm({
+                    title:'登录失败',
+                    delay:2000,
+                    message:'账号或者密码错误',
+                    showCancelButton:false,
+                })
             }
         });
     }
@@ -74,8 +74,6 @@ export default class login extends Component {
                 </div>
             </div>
             <div className="btn" onClick={this.handle_submit}>登录</div>
-            <LoadMore showLine showDot>Emmie</LoadMore>
-            <Toast icon={this.state.toast.icon} show={this.state.showToast}>{this.state.toast.toastText}</Toast>
         </div>
     }
 }

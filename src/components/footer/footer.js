@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
-import {Router, browserHistory, Link} from 'react-router'
-import {TabBar,TabBarItem,TabBarIcon,TabBarLabel} from 'react-weui'
+import {Link} from 'react-router'
 import './footer.css'
 
 import IndexIcon from './../../assion/images/tabbar/home.png'
@@ -15,48 +14,34 @@ export default class footer extends Component {
         pathIndex:0,
     };
     pathnamearr=[
-        '/index','/cart','/me'
+        '/','/cart','/me'
     ];
     constructor(props){
         super(props);
     }
     componentDidMount(){
-        // console.log('componentDidMount');
         this.setState({
             pathIndex:this.pathnamearr.indexOf(this.props.pathname)
         })
     }
     componentWillUnmount(){
-        // console.log('componentWillUnmount');
     }
     render (){
         return <footer>
-            <TabBar>
-                <TabBarItem active={this.state.pathIndex == 0}>
-                    <Link to="/index">
-                        <TabBarIcon>
-                            <img src={this.state.pathIndex==0?IndexFillIcon:IndexIcon}/>
-                        </TabBarIcon>
-                        <TabBarLabel>首页</TabBarLabel>
-                    </Link>
-                </TabBarItem>
-                <TabBarItem active={this.state.pathIndex == 1}>
-                    <Link to="/cart">
-                        <TabBarIcon>
-                            <img src={this.state.pathIndex == 1?CartFillIcon:CartIcon}/>
-                        </TabBarIcon>
-                        <TabBarLabel>购物车</TabBarLabel>
-                    </Link>
-                </TabBarItem>
-                <TabBarItem active={this.state.pathIndex == 2}>
-                    <Link to="/me">
-                        <TabBarIcon>
-                            <img src={this.state.pathIndex == 2?MeFillIcon:MeIcon}/>
-                        </TabBarIcon>
-                        <TabBarLabel>我的</TabBarLabel>
-                    </Link>
-                </TabBarItem>
-            </TabBar>
+            <div className="weui-flex">
+                <Link to='/' className="weui-flex__item">
+                    <img className="label-img" src={this.state.pathIndex === 0?IndexFillIcon:IndexIcon}/>
+                    <div className={this.state.pathIndex === 0?'label active':'label'}>首页</div>
+                </Link>
+                <Link to='/cart' className="weui-flex__item">
+                    <img className="label-img" src={this.state.pathIndex === 1?CartFillIcon:CartIcon}/>
+                    <div className={this.state.pathIndex === 1?'label active':'label'}>购物车</div>
+                </Link>
+                <Link to='/me' className="weui-flex__item">
+                    <img className="label-img" src={this.state.pathIndex === 2?MeFillIcon:MeIcon}/>
+                    <div className={this.state.pathIndex === 2?'label active':'label'}>我的</div>
+                </Link>
+            </div>
         </footer>
     }
 }

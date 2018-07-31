@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
 import './index.css'
-import utils from './../../static/utils'
 export default class list extends Component {
     constructor(props){
         super(props);
@@ -13,28 +12,6 @@ export default class list extends Component {
         console.log(this.props,'props');
     }
     componentDidMount(){
-        // let _this = this,
-        //     filter = '',
-        //     keys = [];
-        //
-        // if(Object.keys(this.props.params).length > 0){
-        //     keys = Object.keys(this.props.params);
-        //     keys.forEach((val,ind)=>{
-        //         filter += '&'+ val+'='+this.props.params[val];
-        //     })
-        // }
-        // filter = filter.slice(1);
-        // utils._axios({
-        //     url:'/m/list.html?'+filter,
-        //     method:'get',
-        //     },
-        //     function (res) {
-        //         console.log(res);
-        //         _this.setState({
-        //             data_list:res.data.data_list
-        //         })
-        //     }
-        // )
     }
     price(price){
         var _price = parseFloat(price);
