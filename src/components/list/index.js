@@ -9,7 +9,6 @@ export default class list extends Component {
         this.price = this.price.bind(this);
     }
     componentWillMount(){
-        console.log(this.props,'props');
     }
     componentDidMount(){
     }
