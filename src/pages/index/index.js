@@ -40,7 +40,6 @@ class index extends Component{
             params:{
                 page:1
             },
-            data_list:[],
             pager:{
                 current:1,
                 total:0
@@ -49,6 +48,7 @@ class index extends Component{
         this.handler_change = this.handler_change.bind(this);
         this.handlerCancel = this.handlerCancel.bind(this);
         this.handlerSubmit = this.handlerSubmit.bind(this);
+        this.handlerListClick = this.handlerListClick.bind(this);
     }
     componentWillMount(){
         load_list.call(this);
@@ -86,6 +86,9 @@ class index extends Component{
     handlerSubmit(e){
         browserHistory.push('/list?keyword='+e);
     }
+    handlerListClick(msg){
+        // console.log('list click',msg);
+    }
     render (){
         return <div style={this.state.pagestyle} ref="scroller">
             <SearchBar style={this.state.searchSty} value={this.state.defaultValue} placeholder="搜你想搜" cancelText="取消"
@@ -95,7 +98,7 @@ class index extends Component{
                 <img src="https://beta.huaboxiangdada.com/public/images/03/19/e2/97ae869bb6d3bad45c8012718906a463b6424713.jpg?45284_OW690_OH400" alt=""/>
                 <img src="https://beta.huaboxiangdada.com/public/images/03/19/e2/97ae869bb6d3bad45c8012718906a463b6424713.jpg?45284_OW690_OH400" alt=""/>
             </Swiper>
-            <List params={this.state.params} data_list={this.state.data_list}/>
+            <List params={this.state.params} data_list={this.state.data_list} listClick={this.handlerListClick}/>
             {this.state.is_view_load?<div style={this.state.load_sty}>加载中...</div>:''}
             {this.state.pager.current === this.state.pager.total?<div style={this.state.load_sty}>加载完了~</div>:''}
             <Footer pathname={this.props.route.path} />

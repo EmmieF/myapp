@@ -1,5 +1,7 @@
 import React,{Component} from 'react';
+import PropTypes from 'prop-types'
 import './index.css'
+
 export default class list extends Component {
     constructor(props){
         super(props);
@@ -29,23 +31,34 @@ export default class list extends Component {
         return _price_str;
     }
     render(){
+        let _this = this;
+        const {data_list,listClick} = this.props;
         return <div className="list clearFix" ref='scroller'>
-            {this.props.data_list.map((item,ind) => {
+            {data_list.map((item,ind) => {
                 item.product.buy_price = this.price(item.product.buy_price);
                 item.product.mktprice = this.price(item.product.mktprice);
                 return (
-                    <div className="left" key={ind}>
-                    <div className="img-box">
-                        <img className="img" src={item.product.image} alt=""/>
+                    <div className='left' key={ind}>
+                    <div className='img-box' onClick={listClick(item.product.name)}>
+                        <img className='img' src={item.product.image} alt=""/>
                     </div>
-                    <p className="name">{item.product.name}</p>
-                    <p className="detail">{item.product.spec_info}</p>
-
-                    <p className="price-money">￥{item.product.mktprice}</p>
-                    <p className="price">￥{item.product.buy_price}</p>
+                    <p className="name ellipsis">{item.product.name}</p>
+                    <p className='detail ellipsis' >{item.product.spec_info}</p>
+                    <p className='price-money'>￥{item.product.mktprice}</p>
+                    <p className='price'>￥{item.product.buy_price}</p>
                 </div>
                 )
             })}
         </div>
     }
 }
+//设置prop默认值
+list.defaultProps = {
+    data_list:[],
+    listClick:()=>{}
+};
+//设置prop类型
+list.propTypes = {
+    data_list:PropTypes.array,
+    listClick:PropTypes.func
+};
