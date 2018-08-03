@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Footer from './../../components/footer/footer'
 import List from './../../components/list/index'
+import Test from './../../components/test/test'
 import utils from './../../static/utils'
 import {SearchBar,Swiper,Indicator} from 'bee-mobile'
 import {browserHistory} from 'react-router'
@@ -29,6 +30,7 @@ const load_list = function(){
 class index extends Component{
     constructor(props){
         super(props);
+        console.log('index constructor');
         this.state = {
             searchSty:{paddingLeft:15,paddingRight:15,position:'fixed',left:0,top:0,width:'100%',zIndex:99,boxSizing:'border-box',
                 backgroundColor:'#FFF'},
@@ -44,22 +46,40 @@ class index extends Component{
                 current:1,
                 total:0
             },
+            total:0
         };
         this.handler_change = this.handler_change.bind(this);
         this.handlerCancel = this.handlerCancel.bind(this);
         this.handlerSubmit = this.handlerSubmit.bind(this);
         this.handlerListClick = this.handlerListClick.bind(this);
+        this.handlerTotal = this.handlerTotal.bind(this);
     }
     componentWillMount(){
+        console.log('index componentWillMount');
         load_list.call(this);
     }
     componentDidMount(){
+        console.log('index componentDidMount');
         let _this = this;
         if(this.refs.scroller){
             this.refs.scroller.addEventListener('scroll',_this.handleScroll.bind(_this),false);
         }
     }
+    componentWillReceiveProps(){
+        console.log('index componentWillReceiveProps');
+    }
+    shouldComponentUpdate(){
+        console.log('index shouldComponentUpdate');
+        return true;
+    }
+    componentWillUpdate(){
+        console.log('index componentWillUpdate');
+    }
+    componentDidUpdate(){
+        console.log('index componentDidUpdate');
+    }
     componentWillUnmount(){
+        console.log('index componentWillUnmount');
     }
     handleScroll(event){
         let params = this.state.params;
@@ -89,11 +109,17 @@ class index extends Component{
     handlerListClick(msg){
         // console.log('list click',msg);
     }
+    handlerTotal(num){
+        this.setState({total:this.state.total+num});
+    }
     render (){
+        // console.log('index render');
         return <div style={this.state.pagestyle} ref="scroller">
             <SearchBar style={this.state.searchSty} value={this.state.defaultValue} placeholder="搜你想搜" cancelText="取消"
                        onCancel={this.handlerCancel} onChange={this.handler_change} onSubmit={this.handlerSubmit}>
             </SearchBar>
+            {/*<Test onTotal={this.handlerTotal}/>*/}
+            <div>{this.state.total}</div>
             <Swiper style={this.state.swiperH} spaceBetween={5} loop={true} slideWidth={0.9} centerMode={true} autoplay={true}>
                 <img src="https://beta.huaboxiangdada.com/public/images/03/19/e2/97ae869bb6d3bad45c8012718906a463b6424713.jpg?45284_OW690_OH400" alt=""/>
                 <img src="https://beta.huaboxiangdada.com/public/images/03/19/e2/97ae869bb6d3bad45c8012718906a463b6424713.jpg?45284_OW690_OH400" alt=""/>

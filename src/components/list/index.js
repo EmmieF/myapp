@@ -4,6 +4,7 @@ import './index.css'
 
 export default class list extends Component {
     constructor(props){
+        // console.log('list constructor');
         super(props);
         this.state = {
             color:'#FC4773',
@@ -11,8 +12,26 @@ export default class list extends Component {
         this.price = this.price.bind(this);
     }
     componentWillMount(){
+        // console.log('list componentWillMount');
     }
     componentDidMount(){
+        // console.log('list componentDidMount');
+    }
+    componentWillReceiveProps(nextProps){
+        // console.log('list componentWillReceiveProps',nextProps);
+    }
+    shouldComponentUpdate(nextProps,nextState){
+        // console.log('list shouldComponentUpdate',nextProps,nextState);
+        return true;
+    }
+    componentWillUpdate(){
+        // console.log('list componentWillUpdate');
+    }
+    componentDidUpdate(){
+        // console.log('list componentDidUpdate');
+    }
+    componentWillUnmount(){
+        // console.log('list componentWillUnmount');
     }
     price(price){
         var _price = parseFloat(price);
@@ -31,6 +50,7 @@ export default class list extends Component {
         return _price_str;
     }
     render(){
+        // console.log('list render');
         let _this = this;
         const {data_list,listClick} = this.props;
         return <div className="list clearFix" ref='scroller'>
