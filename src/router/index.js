@@ -3,6 +3,7 @@ import cart from './../pages/cart/index'
 import member from './../pages/member/index'
 import login from './../pages/login/index'
 import list from './../pages/list/list'
+import test from './../pages/test/test'
 
 const Router = [
     {
@@ -21,6 +22,9 @@ const Router = [
     },{
         path:'/list',
         component:list,
+    },{
+        path:'/test',
+        component:test,
     },
 ];
 export default Router;

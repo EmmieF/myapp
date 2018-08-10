@@ -119,7 +119,7 @@ class index extends Component{
                        onCancel={this.handlerCancel} onChange={this.handler_change} onSubmit={this.handlerSubmit}>
             </SearchBar>
             {/*<Test onTotal={this.handlerTotal}/>*/}
-            <div>{this.state.total}</div>
+            {/*<div>{this.state.total}</div>*/}
             <Swiper style={this.state.swiperH} spaceBetween={5} loop={true} slideWidth={0.9} centerMode={true} autoplay={true}>
                 <img src="https://beta.huaboxiangdada.com/public/images/03/19/e2/97ae869bb6d3bad45c8012718906a463b6424713.jpg?45284_OW690_OH400" alt=""/>
                 <img src="https://beta.huaboxiangdada.com/public/images/03/19/e2/97ae869bb6d3bad45c8012718906a463b6424713.jpg?45284_OW690_OH400" alt=""/>
