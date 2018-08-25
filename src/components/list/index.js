@@ -34,12 +34,13 @@ export default class list extends Component {
         // console.log('list componentWillUnmount');
     }
     price(price){
-        var _price = parseFloat(price);
+        let _price_str,rs;
+        let _price = parseFloat(price);
         if (isNaN(_price)) return price;
         if (_price === 0) return '0.00';
         _price = Math.round(_price * 100) / 100;
-        var _price_str = _price.toString();
-        var rs = _price_str.indexOf('.');
+        _price_str = _price.toString();
+        rs = _price_str.indexOf('.');
         if (rs < 0) {
             rs = _price_str.length;
             _price_str += '.';

@@ -5,20 +5,19 @@ footer {
   width: 100%;
   background: #f7f7fa;
   text-align: center;
-}
-footer a {
-  color: #000;
-}
-footer a .label {
-  color: #000;
-}
-footer a .active {
-  color: #fb1840;
-}
-footer .weui-tabbar .weui-bar__item_on .weui-tabbar__label {
-  color: #fb1840;
-}
-footer .label-img {
-  width: 25px;
-  height: 27px;
-}
+  z-index: 999; }
+  footer a {
+    color: #000; }
+    footer a .label {
+      color: #000; }
+    footer a .active {
+      color: #fb1840; }
+  footer .weui-tabbar .weui-bar__item_on .weui-tabbar__label {
+    color: #fb1840; }
+  footer .label-img {
+    width: 25px;
+    height: 27px; }
+  footer .active .label {
+    color: #fb1840; }
+
+/*# sourceMappingURL=footer.css.map */

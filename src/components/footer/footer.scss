@@ -1,3 +1,4 @@
+@import "./../../static/util";
 footer{
     position: fixed;
     left: 0;
@@ -5,6 +6,7 @@ footer{
     width: 100%;
     background: #f7f7fa;
     text-align: center;
+    z-index: 999;
     a{
         color: #000;
         .label{
@@ -27,5 +29,10 @@ footer{
     }
     .label{
 
+    }
+    .active{
+        .label{
+            color: #fb1840;
+        }
     }
 }

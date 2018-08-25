@@ -1,0 +1,65 @@
+@charset "utf-8";
+$main-color:#fb1840;
+$header-color:#000000;
+$main-font-size:14px;
+$main-font-color:#000000;
+$second-font-color: #8f8f94;
+//单行文本
+@mixin ellipsis{
+    overflow: hidden;  //隐藏超出的内容
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+//更多
+@mixin more{
+    &:after{
+        content:'';
+        position:absolute;
+        display:inline-block;
+        height:8px;
+        width:8px;
+        border-width:2px 2px 0 0;
+        border-color:#C8C8CD;
+        border-style:solid;
+        -webkit-transform:matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+        transform:matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+        top:0;
+        right:15px;
+        bottom:0;
+        margin:auto;
+    }
+}
+//半厘米边框
+@mixin half{
+    &:after{
+        position: absolute;
+        content: '';
+        width: 100%;
+        height: 1px;
+        top:0;
+        left: 0;
+        border-top: 1px solid #dedede;
+        transform: scaleY(.5);
+        -webkit-transform: scaleY(.5);
+    }
+}
+//三角
+@mixin triangle{
+    &:after{
+        content: '';
+        position: absolute;
+        display: block;
+        border-top: 0 solid #FFF;
+        border-left: 4px solid #FFF;
+        border-bottom: 4px solid #000;
+        border-right: 4px solid #FFF;
+        right: 0;
+        top: 18px;
+    }
+}
+//灰色 去除滤镜
+@mixin dead{
+    opacity: .8;
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+}

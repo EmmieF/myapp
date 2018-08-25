@@ -1,5 +1,6 @@
 require('es6-promise').polyfill();
-require('isomorphic-fetch');
+require('polyfill');
+// require('isomorphic-fetch');
 const axios = require('axios');
 let getCookie = function(name){
     var arr = document.cookie.replace(/\s/g, "").split(';');
@@ -56,6 +57,9 @@ let _fetch = function (url,{method='GET',data = {}},callback=()=>{}) {
         'Content-Type':'application/x-www-form-urlencoded',
         'X-Requested-isWXAPP':'YES',
     };
+    if(getCookie('_SID')){
+        headers['X-WxappStorage-SID'] = getCookie('_SID');
+    }
     if(method.toUpperCase() === 'GET'){
         if(Object.keys(data).length > 0){
             url = url+'?'+_params(data);
@@ -73,8 +77,38 @@ let _fetch = function (url,{method='GET',data = {}},callback=()=>{}) {
             credentials: 'include',
         }
     }
-    fetch(url,fetchOptions).then((res)=>res.json()).then((res)=>{
-        callback(res);
+    fetch(url,fetchOptions)
+        .then((response)=>{
+            // console.log(response, '##');
+            if(response.status !== 200){
+                // console.log(1111);
+                // throw new Error('1111');
+                callback(response.status);
+                return console.info('Fail to get response with status ',response.status,response.statusText);
+                // throw new Error('Fail to get response with status ',response.status,response.statusText);
+            }
+            // console.log(response.headers.get('x-wxappstorage'), '$$$$$$$$$$$');
+            let x_wxappstorage = response.headers.get('x-wxappstorage') || false;
+            if (x_wxappstorage) {
+                let kv = x_wxappstorage.split('=');
+                if (kv[0] && kv[1]) {
+                    setCookie(kv[0], kv[1],0.5);
+                } else if (kv[0]) {
+                    removeCookie(kv[0]);
+                }
+            }
+            response.json().then((response)=>{
+                callback(response);
+            }).catch((error)=>{
+                // console.log(222);
+                // throw new Error('2222');
+               return console.info('response error');
+            });
+        })
+        .catch((error)=>{
+            // console.log(333);
+            // throw new Error('3333');
+            return console.info('fetch url error');
     });
 };
 let _axios = function (params,callback) {

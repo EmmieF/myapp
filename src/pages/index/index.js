@@ -30,7 +30,7 @@ const load_list = function(){
 class index extends Component{
     constructor(props){
         super(props);
-        console.log('index constructor');
+        // console.log('index constructor');
         this.state = {
             searchSty:{paddingLeft:15,paddingRight:15,position:'fixed',left:0,top:0,width:'100%',zIndex:99,boxSizing:'border-box',
                 backgroundColor:'#FFF'},
@@ -55,31 +55,31 @@ class index extends Component{
         this.handlerTotal = this.handlerTotal.bind(this);
     }
     componentWillMount(){
-        console.log('index componentWillMount');
+        // console.log('index componentWillMount');
         load_list.call(this);
     }
     componentDidMount(){
-        console.log('index componentDidMount');
+        // console.log('index componentDidMount');
         let _this = this;
         if(this.refs.scroller){
             this.refs.scroller.addEventListener('scroll',_this.handleScroll.bind(_this),false);
         }
     }
     componentWillReceiveProps(){
-        console.log('index componentWillReceiveProps');
+        // console.log('index componentWillReceiveProps');
     }
     shouldComponentUpdate(){
-        console.log('index shouldComponentUpdate');
+        // console.log('index shouldComponentUpdate');
         return true;
     }
     componentWillUpdate(){
-        console.log('index componentWillUpdate');
+        // console.log('index componentWillUpdate');
     }
     componentDidUpdate(){
-        console.log('index componentDidUpdate');
+        // console.log('index componentDidUpdate');
     }
     componentWillUnmount(){
-        console.log('index componentWillUnmount');
+        // console.log('index componentWillUnmount');
     }
     handleScroll(event){
         let params = this.state.params;
@@ -127,7 +127,7 @@ class index extends Component{
             <List params={this.state.params} data_list={this.state.data_list} listClick={this.handlerListClick}/>
             {this.state.is_view_load?<div style={this.state.load_sty}>加载中...</div>:''}
             {this.state.pager.current === this.state.pager.total?<div style={this.state.load_sty}>加载完了~</div>:''}
-            <Footer pathname={this.props.route.path} />
+            <Footer pathname={'/index'} />
         </div>
     }
 }
