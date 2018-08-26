@@ -10,7 +10,6 @@ import toApp from './stores/reducers'
 import Routers from './router/index'
 import 'bee-mobile/dist/bee-mobile.min.css'
 import 'weui'
-import './index.css'
 import registerServiceWorker from './registerServiceWorker'
 
 let store = createStore(toApp);

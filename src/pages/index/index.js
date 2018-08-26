@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Footer from './../../components/footer/footer'
 import List from './../../components/list/index'
-import Test from './../../components/test/test'
 import utils from './../../static/utils'
 import {SearchBar,Swiper,Indicator} from 'bee-mobile'
 import {browserHistory} from 'react-router'
+import {Enhance} from "../../HOC"
 
 let loading_more = false;
 const load_list = function(){
@@ -118,17 +118,15 @@ class index extends Component{
             <SearchBar style={this.state.searchSty} value={this.state.defaultValue} placeholder="搜你想搜" cancelText="取消"
                        onCancel={this.handlerCancel} onChange={this.handler_change} onSubmit={this.handlerSubmit}>
             </SearchBar>
-            {/*<Test onTotal={this.handlerTotal}/>*/}
-            {/*<div>{this.state.total}</div>*/}
             <Swiper style={this.state.swiperH} spaceBetween={5} loop={true} slideWidth={0.9} centerMode={true} autoplay={true}>
                 <img src="https://beta.huaboxiangdada.com/public/images/03/19/e2/97ae869bb6d3bad45c8012718906a463b6424713.jpg?45284_OW690_OH400" alt=""/>
                 <img src="https://beta.huaboxiangdada.com/public/images/03/19/e2/97ae869bb6d3bad45c8012718906a463b6424713.jpg?45284_OW690_OH400" alt=""/>
             </Swiper>
-            <List params={this.state.params} data_list={this.state.data_list} listClick={this.handlerListClick}/>
+            <List params={this.state.params} data_list={this.state.data_list} listClick={this.handlerListClick} price={this.props.price}/>
             {this.state.is_view_load?<div style={this.state.load_sty}>加载中...</div>:''}
             {this.state.pager.current === this.state.pager.total?<div style={this.state.load_sty}>加载完了~</div>:''}
             <Footer pathname={'/index'} />
         </div>
     }
 }
-export default index;
+export default Enhance(index);

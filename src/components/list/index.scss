@@ -1,4 +1,4 @@
-@import "./../../index";
+@import "./../../static/util";
 .list{
     padding: 20px 15px;
     .left{
@@ -27,7 +27,7 @@
             color: #999;
         }
         .price-money{
-            color: @themecolor;
+            color: $main-color;
             line-height: 30px;
             font-size: 15px;
         }
