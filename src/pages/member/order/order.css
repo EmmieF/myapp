@@ -34,32 +34,46 @@ table {
   display: block;
   clear: both; }
 
-.list {
+.order .list {
   padding: 50px 0 0 0;
   background: #FAFAFA; }
-  .list .item {
+  .order .list .item {
     background: #FFF;
     margin-bottom: 10px; }
-    .list .item .item-head {
+    .order .list .item .item-head {
       padding: 15px 15px; }
-      .list .item .item-head .status {
+      .order .list .item .item-head .status {
         color: #999; }
-    .list .item .item-main-inf {
+    .order .list .item .item-main-inf {
       align-items: center;
       border-top: 1px solid #C8C8CD;
       border-bottom: 1px solid #C8C8CD;
       padding: 10px 15px; }
-      .list .item .item-main-inf .item-img {
+      .order .list .item .item-main-inf .img-box {
         width: 100px;
-        height: 100px;
+        position: relative;
         margin-right: 10px; }
-    .list .item .item-inf {
+        .order .list .item .item-main-inf .img-box .item-img {
+          width: 100px;
+          height: 100px; }
+        .order .list .item .item-main-inf .img-box .cart-img-back {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: #8f8f94;
+          left: 0;
+          top: 0;
+          opacity: 1;
+          transition: all .3s ease; }
+        .order .list .item .item-main-inf .img-box .cart-img-back.active {
+          opacity: 0; }
+    .order .list .item .item-inf {
       padding: 10px 15px;
       text-align: right; }
-    .list .item .item-btns {
+    .order .list .item .item-btns {
       padding: 10px 15px;
       border-top: 1px solid #C8C8CD; }
-      .list .item .item-btns span {
+      .order .list .item .item-btns span {
         float: right;
         padding: 4px 6px;
         border: 1px solid #C8C8CD;

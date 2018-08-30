@@ -82,10 +82,8 @@ let _fetch = function (url,{method='GET',data = {}},callback=()=>{}) {
             // console.log(response, '##');
             if(response.status !== 200){
                 // console.log(1111);
-                // throw new Error('1111');
                 callback(response.status);
                 return console.info('Fail to get response with status ',response.status,response.statusText);
-                // throw new Error('Fail to get response with status ',response.status,response.statusText);
             }
             // console.log(response.headers.get('x-wxappstorage'), '$$$$$$$$$$$');
             let x_wxappstorage = response.headers.get('x-wxappstorage') || false;
@@ -101,14 +99,12 @@ let _fetch = function (url,{method='GET',data = {}},callback=()=>{}) {
                 callback(response);
             }).catch((error)=>{
                 // console.log(222);
-                // throw new Error('2222');
-               return console.info('response error');
+               return console.info('response error',error);
             });
         })
         .catch((error)=>{
             // console.log(333);
-            // throw new Error('3333');
-            return console.info('fetch url error');
+            return console.info('fetch url error',error);
     });
 };
 let _axios = function (params,callback) {
