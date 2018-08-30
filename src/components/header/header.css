@@ -46,7 +46,8 @@ header {
   color: #000000;
   font-size: 14px;
   border-bottom: 1px solid #eeeef3;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  background: #FFF; }
   header .back {
     position: absolute;
     display: inline-block;

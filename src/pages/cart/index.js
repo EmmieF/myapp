@@ -60,11 +60,15 @@ class cart extends Component{
         _this.pages_loader_images_timers[image_size] = setTimeout(()=>{
             util._fetch('/openapi/storager/'+image_size,{data:{images:_this.pages_images_ids[image_size]},method:'POST'},(res)=>{
                 let result_images = res.data;
-                let _set = _this.state.images;
-                result_images.forEach((val,ind)=>{
-                    _set[_this.pages_images_ids[image_size][ind]+'_'+image_size] = _this.props.fix_img_url(val);
-                });
-                _this.setState({images:_set});
+                let images = _this.state.images;
+                for(let i = 0,len = result_images.length; i < len; i++){
+                    let val = result_images[i];
+                    if(images[_this.pages_images_ids[image_size][i]+'_'+image_size]){
+                        continue;
+                    }
+                    images[_this.pages_images_ids[image_size][i]+'_'+image_size] = _this.props.fix_img_url(val);
+                }
+                _this.setState({images});
                 // console.log(_this.state.images, '$$$$$');
             })
         },200);

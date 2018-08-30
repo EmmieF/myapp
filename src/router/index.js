@@ -3,6 +3,7 @@ import {Router, Route, IndexRoute, browserHistory} from 'react-router'
 import index from './../pages/index/index'
 import cart from './../pages/cart/index'
 import member from './../pages/member/index'
+import order from './../pages/member/order/order'
 import login from './../pages/login/index'
 import list from './../pages/list/list'
 import test from './../pages/test/test'
@@ -67,6 +68,7 @@ const RouterConfig = <Route path='/' component={App}>
     <Route path='index' component={index} />
     <Route path='cart' component={cart} />
     <Route path='me' component={member} />
+    <Route path='order' component={order} />
     <Route path='list' component={list} />
     <Route path='test' component={test} />
     <Route path='*' component={notfound} />

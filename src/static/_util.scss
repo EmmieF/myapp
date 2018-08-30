@@ -4,6 +4,8 @@ $header-color:#000000;
 $main-font-size:14px;
 $main-font-color:#000000;
 $second-font-color: #8f8f94;
+$mainBackColor:#FAFAFA;
+$borderColor:#C8C8CD;
 body,header,nav,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td { margin:0; padding:0; }
 body { font-size: 13px;font-weight: lighter; word-spacing:3px;font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif; }
 h2, h3, h4, h5, h6 { font-weight:normal; font-size:100%; }
@@ -16,6 +18,12 @@ table { border-collapse:collapse; }
     content: "";
     display: block;
     clear: both;
+}
+@mixin floatLeft{
+    float: left;
+}
+@mixin floatRight{
+    float: right;
 }
 //单行文本
 @mixin ellipsis{
