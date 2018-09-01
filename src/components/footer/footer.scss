@@ -1,5 +1,5 @@
 @import "./../../static/util";
-footer{
+.footerEle{
     position: fixed;
     left: 0;
     bottom: 0;
@@ -10,25 +10,15 @@ footer{
     a{
         color: #000;
         .label{
-            color: #000;
+            color: #555555;
         }
         .active{
             color: #fb1840;
         }
     }
-    .weui-tabbar{
-        .weui-bar__item_on{
-            .weui-tabbar__label{
-                color: #fb1840;
-            }
-        }
-    }
     .label-img{
         width: 25px;
         height: 27px;
-    }
-    .label{
-
     }
     .active{
         .label{

@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import PropTypes from 'prop-types'
-import './index.css'
+import styles from './index.scss'
 
 export default class list extends Component {
     constructor(props){
@@ -9,6 +9,7 @@ export default class list extends Component {
         this.state = {
             color:'#FC4773',
         };
+        // console.log(this.props,'$$$$$$$$$$$');
     }
     componentWillMount(){
         // console.log('list componentWillMount');
@@ -34,20 +35,20 @@ export default class list extends Component {
     }
     render(){
         // console.log('list render');
-        const {data_list,listClick} = this.props;
-        return <div className="list clearFix" ref='scroller'>
+        const {data_list,listClick,price} = this.props;
+        return <div className={styles.list+' clearFix'} ref='scroller'>
             {data_list.map((item,ind) => {
-                item.product.buy_price = this.props.price(item.product.buy_price);
-                item.product.mktprice = this.props.price(item.product.mktprice);
+                item.product.buy_price = price(item.product.buy_price);
+                item.product.mktprice = price(item.product.mktprice);
                 return (
-                    <div className='left' key={ind}>
-                    <div className='img-box' onClick={listClick(item.product.name)}>
-                        <img className='img' src={item.product.image} alt=""/>
+                    <div className={styles.left} key={ind}>
+                    <div className={styles['img-box']} onClick={listClick(item.product.name)}>
+                        <img className={styles.img} src={item.product.image} alt=""/>
                     </div>
-                    <p className="name ellipsis">{item.product.name}</p>
-                    <p className='detail ellipsis' >{item.product.spec_info}</p>
-                    <p className='price-money'>￥{item.product.mktprice}</p>
-                    <p className='price'>￥{item.product.buy_price}</p>
+                    <p className={styles.name +' ellipsis'}>{item.product.name}</p>
+                    <p className={styles.detail + ' ellipsis'}>{item.product.spec_info}</p>
+                    <p className={styles['price-money']}>￥{item.product.mktprice}</p>
+                    <p className={styles.price}>￥{item.product.buy_price}</p>
                 </div>
                 )
             })}

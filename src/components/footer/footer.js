@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import {Link} from 'react-router'
-import './footer.css'
-
+import styles from './footer.scss'
 import IndexIcon from './../../assion/images/tabbar/home.png'
 import IndexFillIcon from './../../assion/images/tabbar/home_active.png'
 import MeIcon from './../../assion/images/tabbar/member.png'
@@ -28,19 +27,19 @@ export default class footer extends Component {
     componentWillUnmount(){
     }
     render (){
-        return <footer>
+        return <footer className={styles.footerEle}>
             <div className="weui-flex">
-                <Link to='/index' className="weui-flex__item" activeClassName="active">
-                    <img className="label-img" src={this.state.pathIndex === 0?IndexFillIcon:IndexIcon}/>
-                    <div className="label">首页</div>
+                <Link to='/index' className="weui-flex__item" activeClassName={styles.active}>
+                    <img className={styles['label-img']} src={this.state.pathIndex === 0?IndexFillIcon:IndexIcon}/>
+                    <div className={styles.label}>首页</div>
                 </Link>
-                <Link to='/cart' className="weui-flex__item" activeClassName="active">
-                    <img className="label-img" src={this.state.pathIndex === 1?CartFillIcon:CartIcon}/>
-                    <div className="label">购物车</div>
+                <Link to='/cart' className="weui-flex__item" activeClassName={styles.active}>
+                    <img className={styles['label-img']} src={this.state.pathIndex === 1?CartFillIcon:CartIcon}/>
+                    <div className={styles.label}>购物车</div>
                 </Link>
-                <Link to='/me' className="weui-flex__item" activeClassName="active">
-                    <img className="label-img" src={this.state.pathIndex === 2?MeFillIcon:MeIcon}/>
-                    <div className="label">我的</div>
+                <Link to='/me' className="weui-flex__item" activeClassName={styles.active}>
+                    <img className={styles['label-img']} src={this.state.pathIndex === 2?MeFillIcon:MeIcon}/>
+                    <div className={styles.label}>我的</div>
                 </Link>
             </div>
         </footer>

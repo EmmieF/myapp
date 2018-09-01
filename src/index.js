@@ -8,8 +8,7 @@ import {Provider} from 'react-redux'
 import {createStore} from 'redux'
 import toApp from './stores/reducers'
 import Routers from './router/index'
-import 'bee-mobile/dist/bee-mobile.min.css'
-import 'weui'
+
 import registerServiceWorker from './registerServiceWorker'
 
 let store = createStore(toApp);

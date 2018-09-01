@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import 'bee-mobile/dist/bee-mobile.min.css'
 import './App.css';
 import Footer from './components/footer/footer'
 

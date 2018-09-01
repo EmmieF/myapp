@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import {Link,browserHistory} from 'react-router'
 import propType from 'prop-types'
-import './header.css'
+import styles from './header.scss'
 
 class header extends Component{
     constructor(props){
@@ -10,7 +10,7 @@ class header extends Component{
     render(){
         const {headername,istabbar} = this.props;
         return <header>
-            {istabbar?null:<Link onClick={()=>browserHistory.goBack()} className="back"></Link>}
+            {istabbar?null:<Link onClick={()=>browserHistory.goBack()} className={styles.back}></Link>}
             {headername}
             {/*<span className="header-more"></span>*/}
         </header>

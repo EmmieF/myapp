@@ -3,7 +3,7 @@ import Footer from './../../components/footer/footer'
 import Header from './../../components/header/header'
 import util from './../../static/utils'
 import {Enhance} from '../../HOC'
-import './cart.css'
+import styles from './cart.scss'
 
 class cart extends Component{
     constructor(props){
@@ -73,41 +73,44 @@ class cart extends Component{
             })
         },200);
     }
+    componentWillUnmount(){
+        this.lazyLoad = null;
+    }
     render (){
         let {headername,cartDate,images} = this.state;
         let {default_img_url} = this.props.data;
         let content = null;
         if(!cartDate){
-            content = <div className="empty">加载中...</div>;
+            content = <div className={styles.empty}>加载中...</div>;
         }else if(cartDate && cartDate.redirect){
-            content = <div className="empty">购物车空空的！</div>;
+            content = <div className={styles.empty}>购物车空空的！</div>;
         }else {
             content = cartDate.data.objects.goods.map((item,index)=>{
                 item.item.product.buy_price = this.props.price(item.item.product.buy_price);
                 return (
-                    <div className="weui-flex data" key={item.item.product.product_id}>
-                        <div className="img-box">
-                            <img className="cart-img" src={images[item.item.product.image_id+'_m']?images[item.item.product.image_id+'_m']:default_img_url} onLoad={this.lazyLoad.bind(this,item.item.product.image_id,'m')} alt={item.item.product.name}/>
-                            <span className={images[item.item.product.image_id+'_m']?'cart-img-back active':'cart-img-back'}></span>
+                    <div className={styles.data+' weui-flex'} key={item.item.product.product_id}>
+                        <div className={styles['img-box']}>
+                            <img className={styles['cart-img']} src={images[item.item.product.image_id+'_m']?images[item.item.product.image_id+'_m']:default_img_url} onLoad={this.lazyLoad.bind(this,item.item.product.image_id,'m')} alt={item.item.product.name}/>
+                            <span className={images[item.item.product.image_id+'_m']?styles['cart-img-back'] +' '+ styles.active:styles['cart-img-back']}></span>
                         </div>
-                        <div className="weui-flex__item box">
-                            <div className="name">{item.item.product.name}</div>
-                            <div className="spec">{item.item.product.spec_info}</div>
-                            <div className="num">
-                                <button className="minus disabled">-</button>
-                                <input className="num-inp" type="number" value={item.quantity} onChange={this.handleQuantity} name={index}/>
-                                <button className="add">+</button>
+                        <div className={styles.box+' weui-flex__item'}>
+                            <div className={styles.name}>{item.item.product.name}</div>
+                            <div className={styles.spec}>{item.item.product.spec_info}</div>
+                            <div className={styles.num}>
+                                <button className={styles.minus+' '+styles.disabled}>-</button>
+                                <input className={styles['num-inp']} type="number" value={item.quantity} onChange={this.handleQuantity} name={index}/>
+                                <button className={styles.add}>+</button>
                             </div>
                         </div>
-                        <div className="price">￥{item.item.product.buy_price}</div>
-                        <div className="del"></div>
+                        <div className={styles.price}>￥{item.item.product.buy_price}</div>
+                        <div className={styles.del}></div>
                     </div>
                 )
             });
         }
-        return <div className="cart">
+        return <div className={styles.cart}>
             <Header headername={headername} istabbar={true} />
-            {cartDate && cartDate.success?<div className="content">{content}</div>:content}
+            {cartDate && cartDate.success?<div className={styles.content}>{content}</div>:content}
             <Footer pathname={this.props.route.path} />
         </div>
     }

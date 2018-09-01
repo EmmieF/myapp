@@ -1,62 +1,26 @@
-body, header, nav, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
-  margin: 0;
-  padding: 0; }
-
-body {
-  font-size: 13px;
-  font-weight: lighter;
-  word-spacing: 3px;
-  font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif; }
-
-h2, h3, h4, h5, h6 {
-  font-weight: normal;
-  font-size: 100%; }
-
-img {
-  border: none; }
-
-a {
-  text-decoration: none; }
-
-ol, ul, li {
-  list-style: none; }
-
-input, textarea, select, button {
-  font: 14px Verdana,Helvetica,Arial,sans-serif;
-  border: 1px solid #999;
-  outline: none; }
-
-table {
-  border-collapse: collapse; }
-
-.clearFix::after {
-  content: "";
-  display: block;
-  clear: both; }
-
-.order .list {
+.list {
   padding: 50px 0 0 0;
   background: #FAFAFA; }
-  .order .list .item {
+  .list .item {
     background: #FFF;
     margin-bottom: 10px; }
-    .order .list .item .item-head {
+    .list .item .item-head {
       padding: 15px 15px; }
-      .order .list .item .item-head .status {
+      .list .item .item-head .status {
         color: #999; }
-    .order .list .item .item-main-inf {
+    .list .item .item-main-inf {
       align-items: center;
       border-top: 1px solid #C8C8CD;
       border-bottom: 1px solid #C8C8CD;
       padding: 10px 15px; }
-      .order .list .item .item-main-inf .img-box {
+      .list .item .item-main-inf .img-box {
         width: 100px;
         position: relative;
         margin-right: 10px; }
-        .order .list .item .item-main-inf .img-box .item-img {
+        .list .item .item-main-inf .img-box .item-img {
           width: 100px;
           height: 100px; }
-        .order .list .item .item-main-inf .img-box .cart-img-back {
+        .list .item .item-main-inf .img-box .cart-img-back {
           position: absolute;
           width: 100%;
           height: 100%;
@@ -65,15 +29,15 @@ table {
           top: 0;
           opacity: 1;
           transition: all .3s ease; }
-        .order .list .item .item-main-inf .img-box .cart-img-back.active {
+        .list .item .item-main-inf .img-box .cart-img-back.active {
           opacity: 0; }
-    .order .list .item .item-inf {
+    .list .item .item-inf {
       padding: 10px 15px;
       text-align: right; }
-    .order .list .item .item-btns {
+    .list .item .item-btns {
       padding: 10px 15px;
       border-top: 1px solid #C8C8CD; }
-      .order .list .item .item-btns span {
+      .list .item .item-btns span {
         float: right;
         padding: 4px 6px;
         border: 1px solid #C8C8CD;

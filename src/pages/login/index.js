@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {browserHistory} from 'react-router'
 import {Indicator,MessageBox} from 'bee-mobile'
-import './index.css'
+import styles from './index.scss'
 import utils from './../../static/utils'
 
 export default class login extends Component {
@@ -57,23 +57,23 @@ export default class login extends Component {
         })
     }
     render() {
-        return <div className="login">
-            <div className="name">用户登录</div>
-            <div className="content">
-                <div className="user-name weui-flex">
+        return <div className={styles.login}>
+            <div className={styles.name}>用户登录</div>
+            <div className={styles.content}>
+                <div className={styles['user-name']+' weui-flex'}>
                     <p>账号</p>
                     <div className="weui-flex__item">
                         <input type="text" placeholder="账号" value={this.state.uanme} onChange={this.handle_uname}/>
                     </div>
                 </div>
-                <div className="user-name weui-flex">
+                <div className={styles['user-name']+' weui-flex'}>
                     <p>密码</p>
                     <div className="weui-flex__item">
                         <input type="password" placeholder="请输入密码" value={this.state.password} onChange={this.handel_password}/>
                     </div>
                 </div>
             </div>
-            <div className="btn" onClick={this.handle_submit}>登录</div>
+            <div className={styles.btn} onClick={this.handle_submit}>登录</div>
         </div>
     }
 }

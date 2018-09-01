@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import Header from './../../../components/header/header'
 import util from "../../../static/utils";
 import {Enhance} from './../../../HOC'
-import './order.css'
+import styles from './order.scss'
 
 let loading_more = false;
 const load_list = function(page){
@@ -108,27 +108,27 @@ class order extends Component{
             content = <div className="empty">加载中...</div>
         }else if(order_list && order_list.length > 0){
             content = order_list.map((item,index)=>{
-                return <li className="item" key={item.order_id}>
-                    <div className="weui-flex item-head">
+                return <li className={styles.item} key={item.order_id}>
+                    <div className={styles['item-head']+' weui-flex'}>
                         <div className="weui-flex__item">订单号：{item.order_id}</div>
-                        <div className="status">status</div>
+                        <div className={styles.status}>status</div>
                     </div>
                     {order_items_group[item.order_id].map((val,ind)=>{
                         val.price = this.props.price(val.price);
-                        return <div className="weui-flex item-main-inf" key={val.item_id}>
-                            <div className="img-box">
-                                <img className="item-img" src={images[val.image_id+'_m']?images[val.image_id+'_m']:default_img_url} alt="" onLoad={this.lazyLoad.bind(this,val.image_id,'m')} />
+                        return <div className={styles['item-main-inf']+' weui-flex'} key={val.item_id}>
+                            <div className={styles['img-box']}>
+                                <img className={styles['item-img']} src={images[val.image_id+'_m']?images[val.image_id+'_m']:default_img_url} alt="" onLoad={this.lazyLoad.bind(this,val.image_id,'m')} />
                                 <span className={images[val.image_id+'_m']?'cart-img-back active':'cart-img-back'}></span>
                             </div>
                             <div className="weui-flex__item">
-                                <p className="item-name">{val.name}</p>
-                                <p className="item-price">¥{val.price}</p>
+                                <p className={styles['item-name']}>{val.name}</p>
+                                <p className={styles['item-price']}>¥{val.price}</p>
                             </div>
-                            <div className="item-num">x{val.nums}</div>
+                            <div className={styles['item-num']}>x{val.nums}</div>
                         </div>
                     })}
-                    <div className="item-inf">共计 {item.quantity} 件 合计 （运费 ¥{item.cost_freight}）：¥{item.order_total}</div>
-                    <div className="clearFix item-btns">
+                    <div className={styles['item-inf']}>共计 {item.quantity} 件 合计 （运费 ¥{item.cost_freight}）：¥{item.order_total}</div>
+                    <div className={styles['item-btns']+' clearFix'}>
                         <span className="">订单详情</span>
                     </div>
                 </li>
@@ -136,9 +136,9 @@ class order extends Component{
         }else if(pager && parseInt(pager.total) === parseInt(pager.current)){
             content = <div className="empty">加载完</div>
         }
-        return <div style={pagestyle} className="order" ref="scroller">
+        return <div style={pagestyle} className={styles['order']} ref="scroller">
             <Header headername={headername} />
-            {this.state.order_list && this.state.order_list.length > 0? <ul className="list">{content}</ul>:content}
+            {this.state.order_list && this.state.order_list.length > 0? <ul className={styles['list']}>{content}</ul>:content}
         </div>
     }
 }

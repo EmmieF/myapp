@@ -1,4 +1,4 @@
-@import "./../../index";
+@import "./../../static/util";
 .login{
     .name{
         text-align: center;
@@ -24,17 +24,17 @@
             p{
                 width: 60px;
             }
-            .weui-flex__item{
-                input{
-                    box-sizing: border-box;
-                    width: 100%;
-                    border: none;
-                }
+            input{
+                box-sizing: border-box;
+                width: 100%;
+                border: none;
+                background: none;
+                line-height: 45px;
             }
         }
     }
     .btn{
-        background: @themecolor;
+        background: $main-color;
         color: #FFF;
         margin: 50px 30px 0 30px;
         text-align: center;

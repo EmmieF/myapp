@@ -1,40 +1,4 @@
-body, header, nav, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
-  margin: 0;
-  padding: 0; }
-
-body {
-  font-size: 13px;
-  font-weight: lighter;
-  word-spacing: 3px;
-  font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif; }
-
-h2, h3, h4, h5, h6 {
-  font-weight: normal;
-  font-size: 100%; }
-
-img {
-  border: none; }
-
-a {
-  text-decoration: none; }
-
-ol, ul, li {
-  list-style: none; }
-
-input, textarea, select, button {
-  font: 14px Verdana,Helvetica,Arial,sans-serif;
-  border: 1px solid #999;
-  outline: none; }
-
-table {
-  border-collapse: collapse; }
-
-.clearFix::after {
-  content: "";
-  display: block;
-  clear: both; }
-
-footer {
+.footerEle {
   position: fixed;
   left: 0;
   bottom: 0;
@@ -42,18 +6,16 @@ footer {
   background: #f7f7fa;
   text-align: center;
   z-index: 999; }
-  footer a {
+  .footerEle a {
     color: #000; }
-    footer a .label {
-      color: #000; }
-    footer a .active {
+    .footerEle a .label {
+      color: #555555; }
+    .footerEle a .active {
       color: #fb1840; }
-  footer .weui-tabbar .weui-bar__item_on .weui-tabbar__label {
-    color: #fb1840; }
-  footer .label-img {
+  .footerEle .label-img {
     width: 25px;
     height: 27px; }
-  footer .active .label {
+  .footerEle .active .label {
     color: #fb1840; }
 
 /*# sourceMappingURL=footer.css.map */
