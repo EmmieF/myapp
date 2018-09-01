@@ -8,8 +8,9 @@ import {Provider} from 'react-redux'
 import {createStore} from 'redux'
 import toApp from './stores/reducers'
 import Routers from './router/index'
-
 import registerServiceWorker from './registerServiceWorker'
+import 'bee-mobile/dist/bee-mobile.min.css'
+import './App.css';
 
 let store = createStore(toApp);
 ReactDOM.render((
