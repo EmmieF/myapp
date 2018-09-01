@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import Footer from './components/footer/footer'
 
 class App extends Component {
