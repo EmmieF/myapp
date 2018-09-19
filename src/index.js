@@ -6,13 +6,13 @@ import ReactDOM from 'react-dom'
 // import 'isomorphic-fetch'
 import {Provider} from 'react-redux'
 import {createStore} from 'redux'
-import toApp from './stores/reducers'
 import Routers from './router/index'
 import registerServiceWorker from './registerServiceWorker'
 import 'bee-mobile/dist/bee-mobile.min.css'
 import './App.css';
+import counter from './reducers'
 
-let store = createStore(toApp);
+let store = createStore(counter);
 ReactDOM.render((
     <Provider store={store}>
         <Routers/>

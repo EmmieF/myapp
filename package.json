@@ -28,6 +28,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "bee-mobile": "^0.4.1"
+    "bee-mobile": "^0.4.1",
+    "extract-text-webpack-plugin": "^3.0.2"
   }
 }

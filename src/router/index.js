@@ -64,8 +64,8 @@ const RouterConfig1 = [
 
 const RouterConfig = <Route path='/' component={App}>
     <IndexRoute component={index}/>
-    <Route path='login' component={login} />
     <Route path='index' component={index} />
+    <Route path='login' component={login} />
     <Route path='cart' component={cart} />
     <Route path='me' component={member} />
     <Route path='order' component={order} />

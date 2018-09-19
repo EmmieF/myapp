@@ -25,6 +25,13 @@ const load_list = function(){
         }
         _this.setState(res);
     });
+    // utils._axios({
+    //     url:'/m/list.html',
+    //     method:'get',
+    //     data: _this.state.params
+    // },function (res) {
+    //     console.log(res, '######');
+    // })
 };
 
 class index extends Component{
