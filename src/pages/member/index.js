@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router'
 import Footer from './../../components/footer/footer'
-import Counter from './../../components/counter/counter'
 import util from './../../static/utils'
+import AddTodo from './../../reducers/containers/AddTodo'
+import VisibleTodoList from './../../reducers/containers/VisibleTodoList'
+import FooterLink from './../../reducers/containers/FootLink'
+import {VisibleFilters} from './../../reducers/actions'
 
 export default class member extends Component{
-    getChildContext(){
-        return {store:this.store}
-    }
     constructor(props,context){
         super(props,context);
-        this.store = props.store;
     }
     componentWillMount(){
         util._fetch('/m/my-orders-all-1.html',{},function(res){
@@ -18,11 +17,14 @@ export default class member extends Component{
         });
     }
     render (){
-        // let {store} = this.props.store;
         return <div>
             me component
+            <AddTodo></AddTodo>
+            <VisibleTodoList></VisibleTodoList>
+            <FooterLink filter={VisibleFilters.SHOW_ALL}>All</FooterLink>
+            <FooterLink filter={VisibleFilters.SHOW_ACTIVE}>ACTIVE</FooterLink>
+            <FooterLink filter={VisibleFilters.SHOW_COMPLETED}>COMPLETED</FooterLink>
             <Link to='dddd'> 404</Link>
-            <Counter  value={store.getState()} onIncrement={store.dispatch({type:'INCREMENT'})} onDecrement={store.dispatch({type:'DECREMENT'})}/>
             <Footer pathname={this.props.route.path} />
         </div>
     }

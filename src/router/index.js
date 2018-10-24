@@ -7,7 +7,7 @@ import order from './../pages/member/order/order'
 import login from './../pages/login/index'
 import list from './../pages/list/list'
 import test from './../pages/test/test'
-import notfound from './../pages/notfound/notfound'
+import notfound from './../pages/404/404'
 import App from "../App";
 
 const RouterConfig1 = [

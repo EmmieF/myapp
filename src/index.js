@@ -10,9 +10,10 @@ import Routers from './router/index'
 import registerServiceWorker from './registerServiceWorker'
 import 'bee-mobile/dist/bee-mobile.min.css'
 import './App.css';
-import counter from './reducers'
+import rootReducer from './reducers';
 
-let store = createStore(counter);
+const store = createStore(rootReducer);
+
 ReactDOM.render((
     <Provider store={store}>
         <Routers/>
