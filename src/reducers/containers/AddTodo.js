@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 const AddTodo = ({ dispatch })=>{
     let input = '';
-
     return (
         <div>
             <form onSubmit={e=>{

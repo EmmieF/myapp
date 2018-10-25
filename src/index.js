@@ -11,8 +11,18 @@ import registerServiceWorker from './registerServiceWorker'
 import 'bee-mobile/dist/bee-mobile.min.css'
 import './App.css';
 import rootReducer from './reducers';
+import { addTodo } from './reducers/actions';
 
 const store = createStore(rootReducer);
+
+const unsubscribe = store.subscribe(()=>{
+    console.log(store.getState(),'subscribe');
+})
+setTimeout(()=>{
+    unsubscribe();
+},5000);
+
+store.dispatch(addTodo('这是测试的'));
 
 ReactDOM.render((
     <Provider store={store}>

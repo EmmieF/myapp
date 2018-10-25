@@ -8,13 +8,16 @@ import FooterLink from './../../reducers/containers/FootLink'
 import {VisibleFilters} from './../../reducers/actions'
 
 export default class member extends Component{
-    constructor(props,context){
-        super(props,context);
+    constructor(props){
+        super(props);
     }
     componentWillMount(){
         util._fetch('/m/my-orders-all-1.html',{},function(res){
             // console.log(res);
         });
+    }
+    componentDidMount(){
+        
     }
     render (){
         return <div>
