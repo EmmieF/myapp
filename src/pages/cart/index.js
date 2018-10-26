@@ -5,6 +5,13 @@ import util from './../../static/utils'
 import {HOC} from '../../HOC'
 import styles from './cart.scss'
 
+const update_cart = function(url,method='get',data={}){
+    let _this = this;
+    util._fetch(url,{method:method,data:data},(result)=>{
+        _this.setState({cartDate:result});
+    })
+}
+
 class cart extends Component{
     constructor(props){
         super(props);
@@ -14,21 +21,24 @@ class cart extends Component{
             images:{},
         };
         this.handleQuantity = this.handleQuantity.bind(this);
+        // this.update_cart = this.update_cart.bind(this);
         // this.lazyLoad = this.lazyLoad.bind(this);
     }
     componentWillMount(){
-        util._fetch('/m/cart.html',{},(result)=>{
-            this.setState({cartDate:result});
-        })
+        // util._fetch('/m/cart.html',{},(result)=>{
+        //     this.setState({cartDate:result});
+        // })
+        update_cart.call(this,'/m/cart.html','get');
     }
     componentDidMount(){
         
     }
-    handleQuantity(event){
-        let index = event.target;
+    handleQuantity(e){
+        console.log(e.target.value);
+        let index = e.target;
         let {cartDate} = this.state;
-        if(event.target.type === 'number'){
-            cartDate.data.objects.goods[event.target.name].quantity = event.target.value;
+        if(e.target.type === 'number'){
+            cartDate.data.objects[0].objects.goods[e.target.name].quantity = e.target.value;
             this.setState({
                 cartDate
             })
@@ -36,6 +46,14 @@ class cart extends Component{
     }
     lazyLoad(image_id,image_size='o'){
         util.lazyLoad.call(this,image_id,image_size);
+    }
+    update_cart(ident,quantity,type,e){
+        if((!1+type) && parseInt(quantity) ===1 ) {
+            console.log('最小值为0');
+            return; 
+        }
+        let action = '/m/cart-update-'+ident+'-'+ (parseInt(quantity)+type)+'.html'
+        update_cart.call(this,action);
     }
     componentWillUnmount(){
         
@@ -46,7 +64,7 @@ class cart extends Component{
         let content = null;
         if(!cartDate){
             content = <div className={styles.empty}>加载中...</div>;
-        }else if(cartDate && cartDate.redirect){
+        }else if(cartDate && cartDate.redirect && cartDate.redirect==='/m/cart-blank.html'){
             content = <div className={styles.empty}>购物车空空的！</div>;
         }else {
             content = cartDate.data.objects[0].objects.goods.map((item,index)=>{
@@ -61,9 +79,9 @@ class cart extends Component{
                             <div className={styles.name}>{item.item.product.name}</div>
                             <div className={styles.spec}>{item.item.product.spec_info}</div>
                             <div className={styles.num}>
-                                <button className={styles.minus+' '+styles.disabled}>-</button>
-                                <input className={styles['num-inp']} type="number" value={item.quantity} onChange={this.handleQuantity} name={index}/>
-                                <button className={styles.add}>+</button>
+                                <button className={styles.minus+' '+ (item.quantity==1?styles.disabled:'')} onClick={this.update_cart.bind(this,item.obj_ident,item.quantity,-1)}>-</button>
+                                <input className={styles['num-inp']} type="number" placeholder={item.quantity} value={item.quantity} onChange={this.handleQuantity} name={index}/>
+                                <button className={styles.add} onClick={this.update_cart.bind(this,item.obj_ident,item.quantity,+1)}>+</button>
                             </div>
                         </div>
                         <div className={styles.price}>￥{item.item.product.buy_price}</div>
