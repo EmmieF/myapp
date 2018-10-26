@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import utils from './../../static/utils';
 import List from './../../components/list/index'
 import {SearchBar} from 'bee-mobile'
-import {Enhance} from "../../HOC"
+import {HOC} from "../../HOC"
 
 let loading_more = false;
 const load_list = function(){
@@ -96,10 +96,10 @@ class list extends Component{
             <SearchBar style={this.state.searchSty} value={this.state.defaultValue} defaultValue={this.state.defaultValue} placeholder="搜你想搜" cancelText="取消"
                        onCancel={this.handlerCancel} onChange={this.handler_change} onSubmit={this.handlerSubmit}>
             </SearchBar>
-            <List params={this.state.params} data_list={this.state.data_list} price={this.props.price}/>
+            <List params={this.state.params} data_list={this.state.data_list} {...this.props.data}/>
             {this.state.is_view_load?<div style={this.state.load_sty}>加载中...</div>:''}
             {this.state.pager.current === this.state.pager.total?<div style={this.state.load_sty}>加载完了~</div>:''}
         </div>
     }
 }
-export default Enhance(list);
+export default HOC(list);

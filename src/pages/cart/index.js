@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Footer from './../../components/footer/footer'
 import Header from './../../components/header/header'
 import util from './../../static/utils'
-import {Enhance} from '../../HOC'
+import {HOC} from '../../HOC'
 import styles from './cart.scss'
 
 class cart extends Component{
@@ -14,7 +14,7 @@ class cart extends Component{
             images:{},
         };
         this.handleQuantity = this.handleQuantity.bind(this);
-        this.lazyLoad = this.lazyLoad.bind(this);
+        // this.lazyLoad = this.lazyLoad.bind(this);
     }
     componentWillMount(){
         util._fetch('/m/cart.html',{},(result)=>{
@@ -22,7 +22,7 @@ class cart extends Component{
         })
     }
     componentDidMount(){
-        console.log(this, '$$$$$$$$$$$$');
+        
     }
     handleQuantity(event){
         let index = event.target;
@@ -35,46 +35,10 @@ class cart extends Component{
         }
     }
     lazyLoad(image_id,image_size='o'){
-        let _this = this;
-        if(['o', 'xs', 's', 'm', 'l'].indexOf(image_size) < 0) image_size = 'o';
-        if(!_this.pages_images_ids){
-            _this.pages_images_ids = {};
-        }
-        if(!_this.pages_loader_images_timers){
-            _this.pages_loader_images_timers = {};
-        }
-        if(_this.state.images[image_id+'_'+image_size]) return;
-
-        if(!_this.pages_images_ids[image_size]){
-            _this.pages_images_ids[image_size] = [];
-        }
-        if(!_this.pages_loader_images_timers){
-            _this.pages_loader_images_timers = {};
-        }
-        if(_this.pages_loader_images_timers[image_size] === undefined){
-            _this.pages_loader_images_timers[image_size] = 0;
-        }
-        _this.pages_images_ids[image_size].push(image_id);
-
-        clearTimeout(_this.pages_loader_images_timers[image_size]);
-        _this.pages_loader_images_timers[image_size] = setTimeout(()=>{
-            util._fetch('/openapi/storager/'+image_size,{data:{images:_this.pages_images_ids[image_size]},method:'POST'},(res)=>{
-                let result_images = res.data;
-                let images = _this.state.images;
-                for(let i = 0,len = result_images.length; i < len; i++){
-                    let val = result_images[i];
-                    if(images[_this.pages_images_ids[image_size][i]+'_'+image_size]){
-                        continue;
-                    }
-                    images[_this.pages_images_ids[image_size][i]+'_'+image_size] = _this.props.fix_img_url(val);
-                }
-                _this.setState({images});
-                // console.log(_this.state.images, '$$$$$');
-            })
-        },200);
+        util.lazyLoad.call(this,image_id,image_size);
     }
     componentWillUnmount(){
-        this.lazyLoad = null;
+        
     }
     render (){
         let {headername,cartDate,images} = this.state;
@@ -85,12 +49,12 @@ class cart extends Component{
         }else if(cartDate && cartDate.redirect){
             content = <div className={styles.empty}>购物车空空的！</div>;
         }else {
-            content = cartDate.data.objects.goods.map((item,index)=>{
-                item.item.product.buy_price = this.props.price(item.item.product.buy_price);
+            content = cartDate.data.objects[0].objects.goods.map((item,index)=>{
+                item.item.product.buy_price = util.price(item.item.product.buy_price);
                 return (
                     <div className={styles.data+' weui-flex'} key={item.item.product.product_id}>
                         <div className={styles['img-box']}>
-                            <img className={styles['cart-img']} src={images[item.item.product.image_id+'_m']?images[item.item.product.image_id+'_m']:default_img_url} onLoad={this.lazyLoad.bind(this,item.item.product.image_id,'m')} alt={item.item.product.name}/>
+                            <img className={styles['cart-img']} src={images[item.item.product.image_id+'_m']?images[item.item.product.image_id+'_m']:default_img_url} onLoad={util.lazyLoad.bind(this,item.item.product.image_id,'m')} alt={item.item.product.name}/>
                             <span className={images[item.item.product.image_id+'_m']?styles['cart-img-back'] +' '+ styles.active:styles['cart-img-back']}></span>
                         </div>
                         <div className={styles.box+' weui-flex__item'}>
@@ -115,4 +79,4 @@ class cart extends Component{
         </div>
     }
 }
-export default Enhance(cart);
+export default HOC(cart);

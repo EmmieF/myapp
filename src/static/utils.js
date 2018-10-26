@@ -2,7 +2,7 @@ require('es6-promise').polyfill();
 require('polyfill');
 // require('isomorphic-fetch');
 const axios = require('axios');
-let getCookie = function(name){
+const getCookie = function(name){
     var arr = document.cookie.replace(/\s/g, "").split(';');
     for (var i = 0; i < arr.length; i++) {
         var tempArr = arr[i].split('=');
@@ -12,12 +12,12 @@ let getCookie = function(name){
     }
     return '';
 };
-let setCookie = function(name, value, days){
+const setCookie = function(name, value, days){
     var date = new Date();
     date.setDate(date.getDate() + days);
     document.cookie = name + '=' + value + ';expires=' + date;
 };
-let removeCookie = function(name){
+const removeCookie = function(name){
     // 设置已过期，系统会立刻删除cookie
     if(name){
         this.setCookie(name, '1', -1);
@@ -32,13 +32,13 @@ let removeCookie = function(name){
         }
     }
 };
-let headers = function(header){
+const headers = function(header){
     header = header || {};
     //小应用特殊头
     header['X-Requested-isWEBAPP'] = 'YES';
     return header;
 };
-let _params = function (data) {
+const _params = function (data) {
     let filter = '',
         keys = [];
     if(Object.keys(data).length > 0){
@@ -50,7 +50,7 @@ let _params = function (data) {
     filter = filter.slice(1);
     return filter;
 };
-let _fetch = function (url,{method='GET',data = {}},callback=()=>{}) {
+const _fetch = function (url,{method='GET',data = {}},callback=()=>{}) {
     let fetchOptions;
     let headers = {
         'Accept':'application/json',
@@ -107,7 +107,7 @@ let _fetch = function (url,{method='GET',data = {}},callback=()=>{}) {
             return console.info('fetch url error',error);
     });
 };
-let _axios = function (params,callback) {
+const _axios = function (params,callback) {
     if (!params.headers) {
         params.headers = {};
     }
@@ -134,7 +134,75 @@ let _axios = function (params,callback) {
         callback(response);
     })
 };
+// 2位数金额转换
+const price = function(price){
+    let _price_str,rs;
+    let _price = parseFloat(price);
+    if (isNaN(_price)) return price;
+    if (_price === 0) return '0.00';
+    _price = Math.round(_price * 100) / 100;
+    _price_str = _price.toString();
+    rs = _price_str.indexOf('.');
+    if (rs < 0) {
+        rs = _price_str.length;
+        _price_str += '.';
+    }
+    while (_price_str.length <= rs + 2) {
+        _price_str += '0';
+    }
+    return _price_str;
+};
+// 格式化图片路径
+const fix_img_url = function(url){
+    if (url.match(/^http([s]*):/)) {
+        return url;
+    }
+    return 'https:' + url;
+}
+// 懒加载图片
+const lazyLoad = function(image_id,image_size='o'){
+    let _this = this;
+    if(['o', 'xs', 's', 'm', 'l'].indexOf(image_size) < 0) image_size = 'o';
+    if(!_this.pages_images_ids){
+        _this.pages_images_ids = {};
+    }
+    if(!_this.pages_loader_images_timers){
+        _this.pages_loader_images_timers = {};
+    }
+    if(_this.state.images[image_id+'_'+image_size]) return;
+
+    if(!_this.pages_images_ids[image_size]){
+        _this.pages_images_ids[image_size] = [];
+    }
+    if(!_this.pages_loader_images_timers){
+        _this.pages_loader_images_timers = {};
+    }
+    if(_this.pages_loader_images_timers[image_size] === undefined){
+        _this.pages_loader_images_timers[image_size] = 0;
+    }
+    _this.pages_images_ids[image_size].push(image_id);
+
+    clearTimeout(_this.pages_loader_images_timers[image_size]);
+    _this.pages_loader_images_timers[image_size] = setTimeout(()=>{
+        _fetch('/openapi/storager/'+image_size,{data:{images:_this.pages_images_ids[image_size]},method:'POST'},(res)=>{
+            let result_images = res.data;
+            let images = _this.state.images;
+            for(let i = 0,len = result_images.length; i < len; i++){
+                let val = result_images[i];
+                if(images[_this.pages_images_ids[image_size][i]+'_'+image_size]){
+                    continue;
+                }
+                images[_this.pages_images_ids[image_size][i]+'_'+image_size] = fix_img_url(val);
+            }
+            _this.setState({images});
+            // console.log(_this.state.images, '$$$$$');
+        })
+    },200);
+}
 export default {
     _fetch,
     _axios,
+    lazyLoad,
+    fix_img_url,
+    price,
 }

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Footer from './../../components/footer/footer'
 import List from './../../components/list/index'
-import utils from './../../static/utils'
+import util from './../../static/utils'
+import {HOC} from './../../HOC'
 import {SearchBar,Swiper,Indicator} from 'bee-mobile'
 import {browserHistory} from 'react-router'
-import {Enhance} from "../../HOC"
 
 let loading_more = false;
 const load_list = function(){
@@ -13,7 +13,7 @@ const load_list = function(){
     _this.setState({
         is_view_load:true
     });
-    utils._fetch('/m/list.html',{method:'get',data:_this.state.params},function (res) {
+    util._fetch('/m/list.html',{method:'get',data:_this.state.params},function (res) {
         loading_more = false;
         _this.setState({
             is_view_load:false
@@ -25,19 +25,11 @@ const load_list = function(){
         }
         _this.setState(res);
     });
-    // utils._axios({
-    //     url:'/m/list.html',
-    //     method:'get',
-    //     data: _this.state.params
-    // },function (res) {
-    //     console.log(res, '######');
-    // })
 };
 
 class index extends Component{
     constructor(props){
         super(props);
-        // console.log('index constructor');
         this.state = {
             searchSty:{paddingLeft:15,paddingRight:15,position:'fixed',left:0,top:0,width:'100%',zIndex:99,boxSizing:'border-box',
                 backgroundColor:'#FFF'},
@@ -62,31 +54,13 @@ class index extends Component{
         this.handlerTotal = this.handlerTotal.bind(this);
     }
     componentWillMount(){
-        // console.log('index componentWillMount');
         load_list.call(this);
     }
     componentDidMount(){
-        // console.log('index componentDidMount');
         let _this = this;
         if(this.refs.scroller){
             this.refs.scroller.addEventListener('scroll',_this.handleScroll.bind(_this),false);
         }
-    }
-    componentWillReceiveProps(){
-        // console.log('index componentWillReceiveProps');
-    }
-    shouldComponentUpdate(){
-        // console.log('index shouldComponentUpdate');
-        return true;
-    }
-    componentWillUpdate(){
-        // console.log('index componentWillUpdate');
-    }
-    componentDidUpdate(){
-        // console.log('index componentDidUpdate');
-    }
-    componentWillUnmount(){
-        // console.log('index componentWillUnmount');
     }
     handleScroll(event){
         let params = this.state.params;
@@ -120,7 +94,6 @@ class index extends Component{
         this.setState({total:this.state.total+num});
     }
     render (){
-        // console.log('index render');
         let {pagestyle,searchSty,defaultValue,params,data_list,is_view_load,load_sty,pager} = this.state;
         return <div style={pagestyle} ref="scroller">
             <SearchBar style={searchSty} value={defaultValue} placeholder="搜你想搜" cancelText="取消"
@@ -130,11 +103,11 @@ class index extends Component{
                 <img src="https://beta.huaboxiangdada.com/public/images/03/19/e2/97ae869bb6d3bad45c8012718906a463b6424713.jpg?45284_OW690_OH400" alt=""/>
                 <img src="https://beta.huaboxiangdada.com/public/images/03/19/e2/97ae869bb6d3bad45c8012718906a463b6424713.jpg?45284_OW690_OH400" alt=""/>
             </Swiper>
-            <List params={params} data_list={data_list} listClick={this.handlerListClick} price={this.props.price}/>
+            <List params={params} data_list={data_list} listClick={this.handlerListClick} {...this.props.data}/>
             {is_view_load?<div style={load_sty}>加载中...</div>:''}
             {pager.current === pager.total?<div style={load_sty}>加载完了~</div>:''}
             <Footer pathname={'/index'} />
         </div>
     }
 }
-export default Enhance(index);
+export default HOC(index);

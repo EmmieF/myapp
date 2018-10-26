@@ -1,49 +1,32 @@
 import React,{Component} from 'react';
 import PropTypes from 'prop-types'
 import styles from './index.scss'
+import util from './../../static/utils'
 
-export default class list extends Component {
+class list extends Component {
     constructor(props){
-        // console.log('list constructor');
         super(props);
         this.state = {
             color:'#FC4773',
+            images:{}
         };
-        // console.log(this.props,'$$$$$$$$$$$');
+        this.lazyLoad = this.lazyLoad.bind(this);
     }
-    componentWillMount(){
-        // console.log('list componentWillMount');
-    }
-    componentDidMount(){
-        // console.log('list componentDidMount');
-    }
-    componentWillReceiveProps(nextProps){
-        // console.log('list componentWillReceiveProps',nextProps);
-    }
-    shouldComponentUpdate(nextProps,nextState){
-        // console.log('list shouldComponentUpdate',nextProps,nextState);
-        return true;
-    }
-    componentWillUpdate(){
-        // console.log('list componentWillUpdate');
-    }
-    componentDidUpdate(){
-        // console.log('list componentDidUpdate');
-    }
-    componentWillUnmount(){
-        // console.log('list componentWillUnmount');
+    lazyLoad(image_id,image_size='o'){
+        util.lazyLoad(image_id,image_size);
     }
     render(){
-        // console.log('list render');
-        const {data_list,listClick,price} = this.props;
+        const {images} = this.state;
+        const {data_list,listClick,default_img_url} = this.props;
         return <div className={styles.list+' clearFix'} ref='scroller'>
             {data_list.map((item,ind) => {
-                item.product.buy_price = price(item.product.buy_price);
-                item.product.mktprice = price(item.product.mktprice);
+                item.product.buy_price = util.price(item.product.buy_price);
+                item.product.mktprice = util.price(item.product.mktprice);
                 return (
                     <div className={styles.left} key={ind}>
                     <div className={styles['img-box']} onClick={listClick(item.product.name)}>
-                        <img className={styles.img} src={item.product.image} alt=""/>
+                        <img className={styles.img} src={images[item.product.image_id+'_m']?images[item.product.image_id+'_m']:default_img_url} onLoad={util.lazyLoad.bind(this,item.product.image_id,'m')} alt={item.product.name}/>
+                        <span className={images[item.product.image_id+'_m']?styles['img-back'] +' '+ styles.active:styles['img-back']}></span>
                     </div>
                     <p className={styles.name +' ellipsis'}>{item.product.name}</p>
                     <p className={styles.detail + ' ellipsis'}>{item.product.spec_info}</p>
@@ -65,3 +48,4 @@ list.propTypes = {
     data_list:PropTypes.array,
     listClick:PropTypes.func
 };
+export default list;

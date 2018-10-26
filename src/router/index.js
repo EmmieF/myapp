@@ -6,7 +6,6 @@ import member from './../pages/member/index'
 import order from './../pages/member/order/order'
 import login from './../pages/login/index'
 import list from './../pages/list/list'
-import test from './../pages/test/test'
 import notfound from './../pages/404/404'
 import App from "../App";
 
@@ -33,9 +32,6 @@ const RouterConfig1 = [
                 path:'/list',
                 component:list,
             },{
-                path:'/test',
-                component:test,
-            },{
                 path:'*',
                 component:notfound
             }
@@ -54,9 +50,6 @@ const RouterConfig1 = [
         path:'/list',
         component:list,
     },{
-        path:'/test',
-        component:test,
-    },{
         path:'*',
         component:notfound
     }
@@ -70,7 +63,6 @@ const RouterConfig = <Route path='/' component={App}>
     <Route path='me' component={member} />
     <Route path='order' component={order} />
     <Route path='list' component={list} />
-    <Route path='test' component={test} />
     <Route path='*' component={notfound} />
 </Route>;
 const Routers = ()=>(

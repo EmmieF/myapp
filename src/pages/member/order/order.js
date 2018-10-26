@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import Header from './../../../components/header/header'
 import util from "../../../static/utils";
-import {Enhance} from './../../../HOC'
+import {HOC} from './../../../HOC'
 import styles from './order.scss'
 
 let loading_more = false;
@@ -114,10 +114,10 @@ class order extends Component{
                         <div className={styles.status}>status</div>
                     </div>
                     {order_items_group[item.order_id].map((val,ind)=>{
-                        val.price = this.props.price(val.price);
+                        val.price = util.price(val.price);
                         return <div className={styles['item-main-inf']+' weui-flex'} key={val.item_id}>
                             <div className={styles['img-box']}>
-                                <img className={styles['item-img']} src={images[val.image_id+'_m']?images[val.image_id+'_m']:default_img_url} alt="" onLoad={this.lazyLoad.bind(this,val.image_id,'m')} />
+                                <img className={styles['item-img']} src={images[val.image_id+'_m']?images[val.image_id+'_m']:default_img_url} alt="" onLoad={util.lazyLoad.bind(this,val.image_id,'m')} />
                                 <span className={images[val.image_id+'_m']?'cart-img-back active':'cart-img-back'}></span>
                             </div>
                             <div className="weui-flex__item">
@@ -142,4 +142,4 @@ class order extends Component{
         </div>
     }
 }
-export default Enhance(order);
+export default HOC(order);
