@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { MessageBox } from 'bee-mobile'
+import { Modal } from 'antd-mobile'
 import Footer from './../../components/footer/footer'
 import Header from './../../components/header/header'
 import util from './../../static/utils'
@@ -8,7 +10,11 @@ import styles from './cart.scss'
 const update_cart = function(url,method='get',data={}){
     let _this = this;
     util._fetch(url,{method:method,data:data},(result)=>{
-        _this.setState({cartDate:result});
+        if(result.redirect.indexOf('cart-blank')!==-1 || result.success){
+            _this.setState({cartDate:result});
+            return;
+        }
+        Modal.alert(result.error,'',[{text:'确定'}],'ios');
     })
 }
 
@@ -20,20 +26,11 @@ class cart extends Component{
             cartDate:null,
             images:{},
         };
-        this.handleQuantity = this.handleQuantity.bind(this);
-        // this.update_cart = this.update_cart.bind(this);
-        // this.lazyLoad = this.lazyLoad.bind(this);
     }
     componentWillMount(){
-        // util._fetch('/m/cart.html',{},(result)=>{
-        //     this.setState({cartDate:result});
-        // })
         update_cart.call(this,'/m/cart.html','get');
     }
-    componentDidMount(){
-        
-    }
-    handleQuantity(e){
+    handleQuantity = (e) => {
         console.log(e.target.value);
         let index = e.target;
         let {cartDate} = this.state;
@@ -44,19 +41,40 @@ class cart extends Component{
             })
         }
     }
-    lazyLoad(image_id,image_size='o'){
-        util.lazyLoad.call(this,image_id,image_size);
-    }
     update_cart(ident,quantity,type,e){
-        if((!1+type) && parseInt(quantity) ===1 ) {
-            console.log('最小值为0');
+        if(!(1+type) && parseInt(quantity) === 1 ) {
+            MessageBox.alert({
+                title:'修改购买数量',
+                message:'最小购买数量为1',
+                showConfirmButton:true,
+            });
             return; 
         }
         let action = '/m/cart-update-'+ident+'-'+ (parseInt(quantity)+type)+'.html'
         update_cart.call(this,action);
     }
-    componentWillUnmount(){
-        
+    del_cart(ident,e){
+        // e.preventDefault();
+        let _this = this;
+        Modal.alert('删除购物车','确定删除该商品？',[
+            {text:'不删除',onPress:()=>{}},
+            {text:'删除',onPress:()=>{
+                let action = '/m/cart-remove-' + ident + '.html'
+                update_cart.call(_this,action);
+            }},
+        ],'ios')
+    }
+    update_cart_nums(ident,quantity){
+        console.log(this);
+        Modal.prompt('修改购买数量','',[
+            {text:'取消'},
+            {text:'修改',onPress:value=>{
+                console.log(value);
+                console.log(this);
+                let action = '/m/cart-update-'+ident+'-'+ value+'.html'
+                update_cart.call(this,action);
+            }}
+        ],'default',quantity)
     }
     render (){
         let {headername,cartDate,images} = this.state;
@@ -80,12 +98,12 @@ class cart extends Component{
                             <div className={styles.spec}>{item.item.product.spec_info}</div>
                             <div className={styles.num}>
                                 <button className={styles.minus+' '+ (item.quantity==1?styles.disabled:'')} onClick={this.update_cart.bind(this,item.obj_ident,item.quantity,-1)}>-</button>
-                                <input className={styles['num-inp']} type="number" placeholder={item.quantity} value={item.quantity} onChange={this.handleQuantity} name={index}/>
+                                <input className={styles['num-inp']} type="number" readOnly placeholder={item.quantity} value={item.quantity} name={index} onClick={this.update_cart_nums.bind(this,item.obj_ident,item.quantity)}/>
                                 <button className={styles.add} onClick={this.update_cart.bind(this,item.obj_ident,item.quantity,+1)}>+</button>
                             </div>
                         </div>
                         <div className={styles.price}>￥{item.item.product.buy_price}</div>
-                        <div className={styles.del}></div>
+                        <div className={styles.del} onClick={this.del_cart.bind(this,item.obj_ident)}></div>
                     </div>
                 )
             });
