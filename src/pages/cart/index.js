@@ -30,17 +30,6 @@ class cart extends Component{
     componentWillMount(){
         update_cart.call(this,'/m/cart.html','get');
     }
-    handleQuantity = (e) => {
-        console.log(e.target.value);
-        let index = e.target;
-        let {cartDate} = this.state;
-        if(e.target.type === 'number'){
-            cartDate.data.objects[0].objects.goods[e.target.name].quantity = e.target.value;
-            this.setState({
-                cartDate
-            })
-        }
-    }
     update_cart(ident,quantity,type,e){
         if(!(1+type) && parseInt(quantity) === 1 ) {
             MessageBox.alert({

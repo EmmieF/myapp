@@ -17,15 +17,6 @@ export default class member extends Component{
             // console.log(res);
         });
     }
-    view_modal = ()=>{
-        Modal.alert('提示','内容',[
-            {text:'取消',onPress:()=>{console.log(111)}},
-            {text:'确认',onPress:()=>{console.log(222)}}
-        ])
-    }
-    componentDidMount(){
-        
-    }
     render (){
         return <div>
             me component
@@ -36,7 +27,6 @@ export default class member extends Component{
             <FooterLink filter={VisibleFilters.SHOW_COMPLETED}>COMPLETED</FooterLink>
             <Link to='dddd'> 404</Link>
             <Footer pathname={this.props.route.path} />
-            <Button type="primary" onClick={this.view_modal}>Start</Button>
         </div>
     }
 }
