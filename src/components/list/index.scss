@@ -33,6 +33,7 @@
         .name{
             line-height: 30px;
             font-size: 15px;
+            @include ellipsis;
         }
         .detail{
             color: #999;

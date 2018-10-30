@@ -1,0 +1,42 @@
+@import './../../static/util';
+.member{
+    .avatar-head{
+        text-align: center;
+        background: #FFF;
+        padding:{
+            top:44px;
+            bottom:10px;
+        }
+        .avatar-img{
+            width: 60px;
+            height: 60px;
+            padding:15px 0;
+            border-radius: 100%;
+        }
+        .avatart-name{
+            color: #FFF;
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 8px;
+            background: $main-color;
+        }
+    }
+    .order{
+        margin: 0 15px;
+        padding: 0 15px;
+        line-height: 40px;
+        background: #FFF;
+        // border: 1px solid #dedede;
+        border-radius: 4px;
+        box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
+       .more{
+            position: relative;
+            color: $second-font-color;
+            padding-right: 10px;
+            @include more;
+            &:after{
+                right: 0;
+            }
+       } 
+    }
+}
