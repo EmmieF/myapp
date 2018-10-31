@@ -37,6 +37,42 @@
             &:after{
                 right: 0;
             }
-       } 
+       }
+       .item{
+            text-align: center;
+            .icon{
+                line-height: 30px;
+                position: relative;
+                .order-nums{
+                    display: inline-block;
+                    position: absolute;
+                    top: 1px;
+                    right: -24px;
+                    left: 0;
+                    margin: auto;
+                    border: 1px solid $main-color;
+                    background: #FFF;
+                    border-radius: 100%;
+                    font-size:0.26rem;
+                    width: 13px;
+                    height: 13px;
+                    color:$main-color;
+                    line-height: 13px;
+                    font-family: '宋体';
+                }
+                &::before{
+                    font-size:24px;
+                }
+            }
+        } 
+    }
+    .logout{
+        text-align: center;
+        margin: 20px 15px 0 15px;
+        line-height: 40px;
+        height: 40px;
+        font-size: 15px;
+        color: #999999;
+        background: #F0F2F2;
     }
 }

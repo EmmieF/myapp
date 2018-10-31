@@ -8,30 +8,77 @@ import AddTodo from './../../reducers/containers/AddTodo'
 import VisibleTodoList from './../../reducers/containers/VisibleTodoList'
 import FooterLink from './../../reducers/containers/FootLink'
 import {VisibleFilters} from './../../reducers/actions'
-import {Flex} from 'antd-mobile'
+import {Flex,Button} from 'antd-mobile'
 
 export default class member extends Component{
     constructor(props){
         super(props);
+        this.state = {
+            default_img_url:'data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAmCAYAAACoPemuAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAABBSURBVFhH7c4hAQAwDMCw+1cwt7uGsIGC8LyZ2YuKqWKqmCqmiqliqpgqpoqpYqqYKqaKqWKqmCqmiqli6mhs9gMKJKtefbIylAAAAABJRU5ErkJggg==',
+            images:[]
+        };
     }
     componentWillMount(){
-        util._fetch('/m/my-orders-all-1.html',{},function(res){
-            // console.log(res);
-        });
+        // util._fetch('/m/my-orders-all-1.html',{},function(res){
+        //     // console.log(res);
+        // });
+        let _this = this;
+        util._fetch('m/my.html',{},function(response){
+            _this.setState(response);
+        })
     }
     render (){
+        let {member,default_img_url,images} = this.state;
+        let userLogin = null,logout = null,avatar = null;
+        if(member){
+            userLogin = <div className={styles['avatart-name']}>{member.name?member.name:member.uname}</div>;
+            logout = <div className={styles.logout}>退出登录</div>;
+            avatar = <img className={styles['avatar-img']} src={images[member.avatar+'_m']?images[member.avatar+'_m']:default_img_url} alt="" onLoad={util.lazyLoad.bind(this,member.avatar,'m')} />;
+        }else{
+            userLogin = <Link className={styles['avatart-name']} to="/login">登录</Link>;
+            avatar = <img className={styles['avatar-img']} src={default_img_url} alt="" />
+        }
         return <div className={styles['member']}>
             <Header headername="个人中心" istabbar={true}></Header>
             <div className={styles['avatar-head']}>
-                <div><img className={styles['avatar-img']} src="data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAmCAYAAACoPemuAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAABBSURBVFhH7c4hAQAwDMCw+1cwt7uGsIGC8LyZ2YuKqWKqmCqmiqliqpgqpoqpYqqYKqaKqWKqmCqmiqli6mhs9gMKJKtefbIylAAAAABJRU5ErkJggg==" alt=""/></div>
-                <div className={styles['avatart-name']}>name</div>
+                <div>
+                    {member?<img className={styles['avatar-img']} src={images[member.avatar+'_m']?images[member.avatar+'_m']:default_img_url} alt="1" onLoad={util.lazyLoad.bind(this,member.avatar,'m')} />:<img className={styles['avatar-img']} src={default_img_url} alt="2" />}
+                </div>
+                {userLogin}
             </div>
             <div className={styles['order']}>
                 <Flex>
                     <Flex.Item>我的订单</Flex.Item>
-                    <div className={styles['more']}>查看全部订单</div>
+                    <Link className={styles['more']} to='/order'>查看全部订单</Link>
+                </Flex>
+                <Flex>
+                    <Flex.Item className={styles.item}>
+                        <div className={styles.icon +' iconfont icon-daifukuan'}>
+                            {/* <i className={styles['order-nums']}>1</i> */}
+                        </div>
+                        <div>待付款</div>
+                    </Flex.Item>
+                    <Flex.Item className={styles.item}>
+                        <div className={styles.icon +' iconfont icon-icon-test'}>
+                            {/* <i className={styles['order-nums']}></i> */}
+                        </div>
+                        <div>待发货</div>
+                    </Flex.Item>
+                    <Flex.Item className={styles.item}>
+                        <div className={styles.icon +' iconfont icon-daishouhuo'}>
+                            {/* <i className={styles['order-nums']}></i> */}
+                        </div>
+                        <div>待收货</div>
+                    </Flex.Item>
+                    <Flex.Item className={styles.item}>
+                        <div className={styles.icon +' iconfont icon-daipingjia01'}>
+                            {/* <i className={styles['order-nums']}></i> */}
+                        </div>
+                        <div>待评价</div>
+                    </Flex.Item>
                 </Flex>
             </div>
+            {logout}
             <Footer pathname={this.props.route.path} />
             {/* <AddTodo></AddTodo>
             <VisibleTodoList></VisibleTodoList>
