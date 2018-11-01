@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styles from './index.scss'
-import {Link} from 'react-router'
+import {Link,browserHistory} from 'react-router'
 import Footer from './../../components/footer/footer'
 import Header from './../../components/header/header'
 import util from './../../static/utils'
@@ -27,12 +27,19 @@ export default class member extends Component{
             _this.setState(response);
         })
     }
+    logout_haddle = () => {
+        util._fetch('/m/passport-logout.html',{},function(response){
+            if(response.success){
+                browserHistory.push('/login');
+            }
+        })
+    }
     render (){
         let {member,default_img_url,images} = this.state;
         let userLogin = null,logout = null,avatar = null;
         if(member){
             userLogin = <div className={styles['avatart-name']}>{member.name?member.name:member.uname}</div>;
-            logout = <div className={styles.logout}>退出登录</div>;
+            logout = <div className={styles.logout} onClick={this.logout_haddle}>退出登录</div>;
             avatar = <img className={styles['avatar-img']} src={images[member.avatar+'_m']?images[member.avatar+'_m']:default_img_url} alt="" onLoad={util.lazyLoad.bind(this,member.avatar,'m')} />;
         }else{
             userLogin = <Link className={styles['avatart-name']} to="/login">登录</Link>;
@@ -49,32 +56,40 @@ export default class member extends Component{
             <div className={styles['order']}>
                 <Flex>
                     <Flex.Item>我的订单</Flex.Item>
-                    <Link className={styles['more']} to='/order'>查看全部订单</Link>
+                    <Link className={styles['more']} to='/order?orderTpe=all'>查看全部订单</Link>
                 </Flex>
                 <Flex>
                     <Flex.Item className={styles.item}>
-                        <div className={styles.icon +' iconfont icon-daifukuan'}>
-                            {/* <i className={styles['order-nums']}>1</i> */}
-                        </div>
-                        <div>待付款</div>
+                        <Link to='/order?orderType=s1'>
+                            <div className={styles.icon +' iconfont icon-daifukuan'}>
+                                {/* <i className={styles['order-nums']}>1</i> */}
+                            </div>
+                            <div className={styles['text']}>待付款</div>
+                        </Link>
                     </Flex.Item>
                     <Flex.Item className={styles.item}>
-                        <div className={styles.icon +' iconfont icon-icon-test'}>
-                            {/* <i className={styles['order-nums']}></i> */}
-                        </div>
-                        <div>待发货</div>
+                        <Link to='/order?orderType=s2'>
+                            <div className={styles.icon +' iconfont icon-icon-test'}>
+                                {/* <i className={styles['order-nums']}></i> */}
+                            </div>
+                            <div className={styles['text']}>待发货</div>
+                        </Link>
                     </Flex.Item>
                     <Flex.Item className={styles.item}>
-                        <div className={styles.icon +' iconfont icon-daishouhuo'}>
-                            {/* <i className={styles['order-nums']}></i> */}
-                        </div>
-                        <div>待收货</div>
+                        <Link to='/order?orderType=s3'>
+                            <div className={styles.icon +' iconfont icon-daishouhuo'}>
+                                {/* <i className={styles['order-nums']}></i> */}
+                            </div>
+                            <div className={styles['text']}>待收货</div>
+                        </Link>
                     </Flex.Item>
                     <Flex.Item className={styles.item}>
-                        <div className={styles.icon +' iconfont icon-daipingjia01'}>
-                            {/* <i className={styles['order-nums']}></i> */}
-                        </div>
-                        <div>待评价</div>
+                        <Link to='/order?orderType=s4'>
+                            <div className={styles.icon +' iconfont icon-daipingjia01'}>
+                                {/* <i className={styles['order-nums']}></i> */}
+                            </div>
+                            <div className={styles['text']}>待评价</div>
+                        </Link>
                     </Flex.Item>
                 </Flex>
             </div>

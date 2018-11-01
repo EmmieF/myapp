@@ -1,7 +1,10 @@
-import React,{Component} from 'react'
+import React, { Component } from 'react'
+import { Link, browserHistory } from 'react-router'
+import { Flex, Toast } from 'antd-mobile'
+import PropTypes from 'prop-types'
 import Header from './../../../components/header/header'
-import util from "../../../static/utils";
-import {HOC} from './../../../HOC'
+import util from "../../../static/utils"
+import { HOC } from './../../../HOC'
 import styles from './order.scss'
 
 let loading_more = false;
@@ -11,7 +14,14 @@ const load_list = function(page){
     _this.setState({
         is_view_load:true,
     });
-    util._fetch('/m/my-orders-all-'+page+'.html',{method:'get',data:_this.state.params},function (res) {
+    Toast.loading('努力加载中',0);
+    util._fetch('/m/my-orders-'+ _this.state.order_type +'-'+page+'.html',{method:'get',data:_this.state.params},function (res) {
+        Toast.hide();
+        if(res.error === '未登录')
+            browserHistory.push('/login');
+        if(res.error){
+            return;
+        }
         loading_more = false;
         _this.setState({
             is_view_load:false
@@ -36,9 +46,11 @@ class order extends Component{
         this.state = {
             headername:'我的订单',
             pagestyle:{position:'absolute',left:0,top:0,height:'100%',width:'100%',overflowY:'scroll',boxSizing:'border-box'},
-            order_list:null,
+            order_list:true,
             order_items_group:null,
             images:{},
+            order_type:props.location.query.orderType?props.location.query.orderType:'all',
+            order_type_arr:[{name:'全部',type:'all'},{name:'待付款',type:'s1'},{name:'待发货',type:'s2'},{name:'待收货',type:'s3'},{name:'待评价',type:'s4'}]
         };
     }
     componentWillMount(){
@@ -49,6 +61,12 @@ class order extends Component{
         if(this.refs.scroller){
             this.refs.scroller.addEventListener('scroll',_this.handleScroll.bind(_this),false);
         }
+    }
+    orderType_handle(order_type){
+        if(order_type === this.state.order_type) return;
+        this.setState({order_type,order_list:true},() => {
+            load_list.call(this,1);
+        });
     }
     handleScroll(event){
         const clientHeight = event.target.clientHeight;
@@ -61,52 +79,11 @@ class order extends Component{
             load_list.call(this,parseInt(this.state.pager.current)+1);
         }
     }
-    lazyLoad(image_id,image_size='o'){
-        let _this = this;
-        if(['o', 'xs', 's', 'm', 'l'].indexOf(image_size) < 0) image_size = 'o';
-        if(!_this.pages_images_ids){
-            _this.pages_images_ids = {};
-        }
-        if(!_this.pages_loader_images_timers){
-            _this.pages_loader_images_timers = {};
-        }
-        if(_this.state.images[image_id+'_'+image_size]) return;
-
-        if(!_this.pages_images_ids[image_size]){
-            _this.pages_images_ids[image_size] = [];
-        }
-        if(!_this.pages_loader_images_timers){
-            _this.pages_loader_images_timers = {};
-        }
-        if(_this.pages_loader_images_timers[image_size] === undefined){
-            _this.pages_loader_images_timers[image_size] = 0;
-        }
-        _this.pages_images_ids[image_size].push(image_id);
-
-        clearTimeout(_this.pages_loader_images_timers[image_size]);
-        _this.pages_loader_images_timers[image_size] = setTimeout(()=>{
-            util._fetch('/openapi/storager/'+image_size,{data:{images:_this.pages_images_ids[image_size]},method:'POST'},(res)=>{
-                let result_images = res.data;
-                let images = _this.state.images;
-                for(let i = 0,len = result_images.length; i < len; i++){
-                    let val = result_images[i];
-                    if(images[_this.pages_images_ids[image_size][i]+'_'+image_size]){
-                        continue;
-                    }
-                    images[_this.pages_images_ids[image_size][i]+'_'+image_size] = _this.props.fix_img_url(val);
-                }
-                _this.setState({images});
-                // console.log(_this.state.images, '$$$$$');
-            })
-        },200);
-    }
     render(){
-        const {headername,order_list,order_items_group,pager,images,pagestyle} = this.state;
+        const {headername,order_list,order_items_group,pager,images,pagestyle,order_type,order_type_arr} = this.state;
         const {default_img_url} = this.props.data;
         let content = null;
-        if(!order_list){
-            content = <div className="empty">加载中...</div>
-        }else if(order_list && order_list.length > 0){
+        if(order_list && order_list.length > 0){
             content = order_list.map((item,index)=>{
                 return <li className={styles.item} key={item.order_id}>
                     <div className={styles['item-head']+' weui-flex'}>
@@ -134,12 +111,31 @@ class order extends Component{
                 </li>
             })
         }else if(pager && parseInt(pager.total) === parseInt(pager.current)){
-            content = <div className="empty">加载完</div>
+            content = <div className={styles['empty']}>加载完</div>
+        }else if(pager && parseInt(pager.total) > parseInt(pager.current)){
+            content = <div className={styles['empty']}>加载中...</div>
+        }else if(!order_list){
+            content = <div className={styles['empty']}>暂无数据</div>
         }
         return <div style={pagestyle} className={styles['order']} ref="scroller">
+            <Flex className={styles['order-header']}>
+            {order_type_arr.map((item,index)=>{
+                return <Flex.Item onClick={this.orderType_handle.bind(this,item.type)} className={order_type===item.type?styles['active']:''} key={index}>
+                    {item.name}
+                </Flex.Item>
+            })}
+            </Flex>
             <Header headername={headername} />
-            {this.state.order_list && this.state.order_list.length > 0? <ul className={styles['list']}>{content}</ul>:content}
+            <div className={styles.list}>
+                {this.state.order_list && this.state.order_list.length > 0? <ul>{content}</ul>:content}
+            </div>
         </div>
     }
+}
+order.defaultProps = {
+    
+}
+order.propTypes = {
+    
 }
 export default HOC(order);

@@ -40,9 +40,13 @@
        }
        .item{
             text-align: center;
+            .text{
+                color: #000;
+            }
             .icon{
                 line-height: 30px;
                 position: relative;
+                color: #000;
                 .order-nums{
                     display: inline-block;
                     position: absolute;
