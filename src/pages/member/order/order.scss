@@ -28,11 +28,9 @@
             }
         }
         .item-main-inf{
+            position: relative;
+            @include halfBoth;
             align-items: center;
-            border:{
-                top:1px solid $borderColor;
-                bottom: 1px solid $borderColor;
-            };
             padding: 10px 15px;
             .img-box{
                 width: 100px;
@@ -62,10 +60,11 @@
             text-align: right;
         }
         .item-btns{
+            position: relative;
             padding: 10px 15px;
-            border: {
-                top:1px solid $borderColor;
-            };
+            height: 22px;
+            @include half;
+            @include clearFix;
             span{
                 @include floatRight;
                 padding: 4px 6px;

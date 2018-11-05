@@ -1,0 +1,80 @@
+@import './../../../../static/util';
+
+.detail{
+    // padding: 0 15px;
+    padding-top: 44px;
+    .detail-order_id{
+        padding: 10px 15px;
+        background: #FFF;
+    }
+    .status{
+        color: $second-font-color;
+    }
+    .addr{
+        padding: 10px 15px;
+        background: #FFF;
+        .uname{
+
+        }
+        .addr-inf{
+            color: $second-font-color;
+        }
+    }
+    .linepost{
+        height: 2.5px;
+        width: 10px;
+        display: block;
+    }
+    .item-main-inf{
+        position: relative;
+        align-items: center;
+        background: #FFF;
+        padding: 10px 15px;
+        @include halfBoth;
+        .img-box{
+            width: 100px;
+            position: relative;
+            margin-right: 10px;
+            .item-img{
+                width: 100px;
+                height: 100px;
+            }
+            .cart-img-back{
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: $second-font-color;
+                left: 0;
+                top: 0;
+                opacity: 1;
+                transition: all .3s ease;
+            }
+            .cart-img-back.active{
+                opacity: 0;
+            }
+        }
+    }
+    .other-inf{
+        background: #FFF;
+        padding: 10px 15px;
+        .payName{
+            color: $second-font-color;
+        }
+    }
+    .more{
+        margin-top: 10px;
+        position: relative;
+        @include half;
+    }
+    .total{
+        position: relative;
+        @include half;
+        background: #FFF;
+        padding: 15px;
+        margin-top: 10px;
+        text-align: right;
+        span{
+            color: $main-color;
+        }
+    }
+}

@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import {browserHistory} from 'react-router'
 import utils from './../../static/utils';
 import List from './../../components/list/index'
 import {SearchBar} from 'bee-mobile'
@@ -49,6 +50,7 @@ class list extends Component{
         this.handlerCancel = this.handlerCancel.bind(this);
         this.handlerSubmit = this.handlerSubmit.bind(this);
         this.handler_change = this.handler_change.bind(this);
+        // this.gotoPage = this.gotoPage.bind(this);
     }
     componentWillMount(){
         load_list.call(this);
@@ -68,7 +70,7 @@ class list extends Component{
         const scrollHeight = event.target.scrollHeight;
         const scrollTop = event.target.scrollTop;
         if(scrollTop + clientHeight >= scrollHeight-10){
-            if(loading_more || (this.state.pager && params.page === parseInt(this.state.pager.total))){
+            if(loading_more || (this.state.pager && params.page === parseInt(this.state.pager.total,0))){
                 return;
             }
             params.page += 1;
@@ -91,12 +93,16 @@ class list extends Component{
         this.setState({params});
         load_list.call(this);
     }
+    gotoPage(product_id,e){
+        e.stopPropagation();
+        browserHistory.push('/product?product_id='+product_id);
+    }
     render(){
         return <div style={this.state.pagestyle} ref="scroller">
             <SearchBar style={this.state.searchSty} value={this.state.defaultValue} defaultValue={this.state.defaultValue} placeholder="搜你想搜" cancelText="取消"
                        onCancel={this.handlerCancel} onChange={this.handler_change} onSubmit={this.handlerSubmit}>
             </SearchBar>
-            <List params={this.state.params} data_list={this.state.data_list} {...this.props.data}/>
+            <List params={this.state.params} data_list={this.state.data_list} {...this.props.data} gotoPage={this.gotoPage}/>
             {this.state.is_view_load?<div style={this.state.load_sty}>加载中...</div>:''}
             {this.state.pager.current === this.state.pager.total?<div style={this.state.load_sty}>加载完了~</div>:''}
         </div>

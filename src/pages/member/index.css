@@ -1,0 +1,81 @@
+@charset "UTF-8";
+.member .avatar-head {
+  text-align: center;
+  background: #FFF;
+  padding-top: 44px;
+  padding-bottom: 10px; }
+  .member .avatar-head .avatar-img {
+    width: 60px;
+    height: 60px;
+    padding: 15px 0;
+    border-radius: 100%; }
+  .member .avatar-head .avatart-name {
+    color: #FFF;
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 8px;
+    background: #FF5582; }
+.member .order {
+  margin: 0 15px;
+  padding: 0 15px;
+  line-height: 40px;
+  background: #FFF;
+  border-radius: 4px;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1); }
+  .member .order .more {
+    position: relative;
+    color: #8f8f94;
+    padding-right: 10px; }
+    .member .order .more:after {
+      content: '';
+      position: absolute;
+      display: inline-block;
+      height: 8px;
+      width: 8px;
+      border-width: 2px 2px 0 0;
+      border-color: #C8C8CD;
+      border-style: solid;
+      -webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+      transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+      top: 0;
+      right: 15px;
+      bottom: 0;
+      margin: auto; }
+    .member .order .more:after {
+      right: 0; }
+  .member .order .item {
+    text-align: center; }
+    .member .order .item .text {
+      color: #000; }
+    .member .order .item .icon {
+      line-height: 30px;
+      position: relative;
+      color: #000; }
+      .member .order .item .icon .order-nums {
+        display: inline-block;
+        position: absolute;
+        top: 1px;
+        right: -24px;
+        left: 0;
+        margin: auto;
+        border: 1px solid #FF5582;
+        background: #FFF;
+        border-radius: 100%;
+        font-size: 0.26rem;
+        width: 13px;
+        height: 13px;
+        color: #FF5582;
+        line-height: 13px;
+        font-family: '瀹嬩綋'; }
+      .member .order .item .icon::before {
+        font-size: 24px; }
+.member .logout {
+  text-align: center;
+  margin: 20px 15px 0 15px;
+  line-height: 40px;
+  height: 40px;
+  font-size: 15px;
+  color: #999999;
+  background: #F0F2F2; }
+
+/*# sourceMappingURL=index.css.map */

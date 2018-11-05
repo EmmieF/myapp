@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Link, browserHistory } from 'react-router'
+import { browserHistory } from 'react-router'
 import { Flex, Toast } from 'antd-mobile'
-import PropTypes from 'prop-types'
 import Header from './../../../components/header/header'
 import util from "../../../static/utils"
 import { HOC } from './../../../HOC'
@@ -50,8 +49,18 @@ class order extends Component{
             order_items_group:null,
             images:{},
             order_type:props.location.query.orderType?props.location.query.orderType:'all',
-            order_type_arr:[{name:'全部',type:'all'},{name:'待付款',type:'s1'},{name:'待发货',type:'s2'},{name:'待收货',type:'s3'},{name:'待评价',type:'s4'}]
+            order_type_arr:[{name:'全部',type:'all'},{name:'待付款',type:'s1'},{name:'待发货',type:'s2'},{name:'待收货',type:'s3'},{name:'待评价',type:'s4'}],
+            status_kvmap: {
+                order_status: {
+                    'active': '执行中',
+                    'dead': '已作废',
+                    'finish': '已完成'
+                },
+                pay_status: ['未支付', '已付款', '已付款至到担保方', '部分付款', '部分退款', '全额退款'],
+                ship_status: ['未发货', '已发货', '部分发货', '部分退货', '已退货','已确认收货'],
+            },
         };
+        // this.gotoPage = this.gotoPage.bind(this);
     }
     componentWillMount(){
         load_list.call(this,1);
@@ -73,46 +82,51 @@ class order extends Component{
         const scrollHeight = event.target.scrollHeight;
         const scrollTop = event.target.scrollTop;
         if(scrollTop + clientHeight >= scrollHeight-10){
-            if(loading_more || (this.state.pager && parseInt(this.state.pager.current) === parseInt(this.state.pager.total))){
+            if(loading_more || (this.state.pager && parseInt(this.state.pager.current,0) === parseInt(this.state.pager.total,0))){
                 return;
             }
-            load_list.call(this,parseInt(this.state.pager.current)+1);
+            load_list.call(this,parseInt(this.state.pager.current,0)+1);
         }
     }
+    gotoPage(order_id,e){
+        e.stopPropagation();
+        e.preventDefault();
+        browserHistory.push('order/detail?order_id='+order_id);
+    }
     render(){
-        const {headername,order_list,order_items_group,pager,images,pagestyle,order_type,order_type_arr} = this.state;
+        const {headername,order_list,order_items_group,pager,images,pagestyle,order_type,order_type_arr,status_kvmap} = this.state;
         const {default_img_url} = this.props.data;
         let content = null;
         if(order_list && order_list.length > 0){
             content = order_list.map((item,index)=>{
                 return <li className={styles.item} key={item.order_id}>
-                    <div className={styles['item-head']+' weui-flex'}>
-                        <div className="weui-flex__item">订单号：{item.order_id}</div>
-                        <div className={styles.status}>status</div>
-                    </div>
+                    <Flex className={styles['item-head']}>
+                        <Flex.Item>订单号：{item.order_id}</Flex.Item>
+                        <div className={styles.status}>{item.status!=='dead'?status_kvmap.pay_status[item.pay_status]:''} {item.status!=='dead'?status_kvmap.ship_status[item.ship_status]:''} {status_kvmap.order_status[item.status]}</div>
+                    </Flex>
                     {order_items_group[item.order_id].map((val,ind)=>{
                         val.price = util.price(val.price);
-                        return <div className={styles['item-main-inf']+' weui-flex'} key={val.item_id}>
+                        return <Flex className={styles['item-main-inf']} key={val.item_id}>
                             <div className={styles['img-box']}>
                                 <img className={styles['item-img']} src={images[val.image_id+'_m']?images[val.image_id+'_m']:default_img_url} alt="" onLoad={util.lazyLoad.bind(this,val.image_id,'m')} />
                                 <span className={images[val.image_id+'_m']?'cart-img-back active':'cart-img-back'}></span>
                             </div>
-                            <div className="weui-flex__item">
+                            <Flex.Item>
                                 <p className={styles['item-name']}>{val.name}</p>
                                 <p className={styles['item-price']}>¥{val.price}</p>
-                            </div>
+                            </Flex.Item>
                             <div className={styles['item-num']}>x{val.nums}</div>
-                        </div>
+                        </Flex>
                     })}
                     <div className={styles['item-inf']}>共计 {item.quantity} 件 合计 （运费 ¥{item.cost_freight}）：¥{item.order_total}</div>
-                    <div className={styles['item-btns']+' clearFix'}>
-                        <span className="">订单详情</span>
+                    <div className={styles['item-btns']}>
+                        <span className="" onClick={this.gotoPage.bind(this,item.order_id)}>订单详情</span>
                     </div>
                 </li>
             })
-        }else if(pager && parseInt(pager.total) === parseInt(pager.current)){
+        }else if(pager && parseInt(pager.total,0) === parseInt(pager.current,0)){
             content = <div className={styles['empty']}>加载完</div>
-        }else if(pager && parseInt(pager.total) > parseInt(pager.current)){
+        }else if(pager && parseInt(pager.total,0) > parseInt(pager.current,0)){
             content = <div className={styles['empty']}>加载中...</div>
         }else if(!order_list){
             content = <div className={styles['empty']}>暂无数据</div>
@@ -127,7 +141,7 @@ class order extends Component{
             </Flex>
             <Header headername={headername} />
             <div className={styles.list}>
-                {this.state.order_list && this.state.order_list.length > 0? <ul>{content}</ul>:content}
+                {order_list && order_list.length > 0? <ul>{content}</ul>:content}
             </div>
         </div>
     }

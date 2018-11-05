@@ -1,5 +1,20 @@
+.order-header {
+  position: fixed;
+  left: 0;
+  top: 44px;
+  width: 100%;
+  line-height: 40px;
+  text-align: center;
+  background: #FFF;
+  z-index: 99; }
+  .order-header .active {
+    color: #FF5582; }
+
+.empty {
+  text-align: center; }
+
 .list {
-  padding: 50px 0 0 0;
+  padding: 90px 0 0 0;
   background: #FAFAFA; }
   .list .item {
     background: #FFF;
@@ -9,10 +24,29 @@
       .list .item .item-head .status {
         color: #999; }
     .list .item .item-main-inf {
+      position: relative;
       align-items: center;
-      border-top: 1px solid #C8C8CD;
-      border-bottom: 1px solid #C8C8CD;
       padding: 10px 15px; }
+      .list .item .item-main-inf:after {
+        position: absolute;
+        content: '';
+        width: 100%;
+        height: 1px;
+        top: 0;
+        left: 0;
+        border-top: 1px solid #dedede;
+        transform: scaleY(0.5);
+        -webkit-transform: scaleY(0.5); }
+      .list .item .item-main-inf:before {
+        position: absolute;
+        content: '';
+        width: 100%;
+        height: 1px;
+        bottom: 0;
+        left: 0;
+        border-bottom: 1px solid #dedede;
+        transform: scaleY(0.5);
+        -webkit-transform: scaleY(0.5); }
       .list .item .item-main-inf .img-box {
         width: 100px;
         position: relative;
@@ -35,8 +69,23 @@
       padding: 10px 15px;
       text-align: right; }
     .list .item .item-btns {
+      position: relative;
       padding: 10px 15px;
-      border-top: 1px solid #C8C8CD; }
+      height: 22px; }
+      .list .item .item-btns:after {
+        position: absolute;
+        content: '';
+        width: 100%;
+        height: 1px;
+        top: 0;
+        left: 0;
+        border-top: 1px solid #dedede;
+        transform: scaleY(0.5);
+        -webkit-transform: scaleY(0.5); }
+      .list .item .item-btns::before {
+        content: '';
+        display: block;
+        clear: both; }
       .list .item .item-btns span {
         float: right;
         padding: 4px 6px;

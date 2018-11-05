@@ -30,8 +30,8 @@ class cart extends Component{
     componentWillMount(){
         update_cart.call(this,'/m/cart.html','get');
     }
-    update_cart(ident,quantity,type,e){
-        if(!(1+type) && parseInt(quantity) === 1 ) {
+    update_cart(ident,quantity,type){
+        if(!(1 + type) && parseInt(quantity,0) === 1 ) {
             MessageBox.alert({
                 title:'修改购买数量',
                 message:'最小购买数量为1',
@@ -39,7 +39,7 @@ class cart extends Component{
             });
             return; 
         }
-        let action = '/m/cart-update-'+ident+'-'+ (parseInt(quantity)+type)+'.html'
+        let action = '/m/cart-update-' + ident+'-' + (parseInt(quantity,0)+type) + '.html';
         update_cart.call(this,action);
     }
     del_cart(ident,e){
@@ -60,7 +60,7 @@ class cart extends Component{
             {text:'修改',onPress:value=>{
                 console.log(value);
                 console.log(this);
-                let action = '/m/cart-update-'+ident+'-'+ value+'.html'
+                let action = '/m/cart-update-'+ident+'-'+ value+'.html';
                 update_cart.call(this,action);
             }}
         ],'default',quantity)
@@ -86,7 +86,7 @@ class cart extends Component{
                             <div className={styles.name}>{item.item.product.name}</div>
                             <div className={styles.spec}>{item.item.product.spec_info}</div>
                             <div className={styles.num}>
-                                <button className={styles.minus+' '+ (item.quantity==1?styles.disabled:'')} onClick={this.update_cart.bind(this,item.obj_ident,item.quantity,-1)}>-</button>
+                                <button className={styles.minus+' '+ (item.quantity===1?styles.disabled:'')} onClick={this.update_cart.bind(this,item.obj_ident,item.quantity,-1)}>-</button>
                                 <input className={styles['num-inp']} type="number" readOnly placeholder={item.quantity} value={item.quantity} name={index} onClick={this.update_cart_nums.bind(this,item.obj_ident,item.quantity)}/>
                                 <button className={styles.add} onClick={this.update_cart.bind(this,item.obj_ident,item.quantity,+1)}>+</button>
                             </div>

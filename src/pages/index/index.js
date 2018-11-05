@@ -3,7 +3,7 @@ import Footer from './../../components/footer/footer'
 import List from './../../components/list/index'
 import util from './../../static/utils'
 import {HOC} from './../../HOC'
-import {SearchBar,Swiper,Indicator} from 'bee-mobile'
+import {SearchBar,Swiper} from 'bee-mobile'
 import {browserHistory} from 'react-router'
 
 let loading_more = false;
@@ -68,7 +68,7 @@ class index extends Component{
         const scrollHeight = event.target.scrollHeight;
         const scrollTop = event.target.scrollTop;
         if(scrollTop + clientHeight >= scrollHeight-10){
-            if(loading_more || (this.state.pager && params.page === parseInt(this.state.pager.total))){
+            if(loading_more || (this.state.pager && params.page === parseInt(this.state.pager.total,0))){
                 return;
             }
             params.page += 1;
@@ -87,9 +87,6 @@ class index extends Component{
     handlerSubmit(e){
         browserHistory.push('/list?keyword='+e);
     }
-    handlerListClick(msg){
-        // console.log('list click',msg);
-    }
     handlerTotal(num){
         this.setState({total:this.state.total+num});
     }
@@ -103,7 +100,7 @@ class index extends Component{
                 <img src="https://beta.huaboxiangdada.com/public/images/03/19/e2/97ae869bb6d3bad45c8012718906a463b6424713.jpg?45284_OW690_OH400" alt=""/>
                 <img src="https://beta.huaboxiangdada.com/public/images/03/19/e2/97ae869bb6d3bad45c8012718906a463b6424713.jpg?45284_OW690_OH400" alt=""/>
             </Swiper>
-            <List params={params} data_list={data_list} listClick={this.handlerListClick} {...this.props.data}/>
+            <List params={params} data_list={data_list} {...this.props.data}/>
             {is_view_load?<div style={load_sty}>加载中...</div>:''}
             {pager.current === pager.total?<div style={load_sty}>加载完了~</div>:''}
             <Footer pathname={'/index'} />

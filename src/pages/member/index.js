@@ -4,11 +4,11 @@ import {Link,browserHistory} from 'react-router'
 import Footer from './../../components/footer/footer'
 import Header from './../../components/header/header'
 import util from './../../static/utils'
-import AddTodo from './../../reducers/containers/AddTodo'
-import VisibleTodoList from './../../reducers/containers/VisibleTodoList'
-import FooterLink from './../../reducers/containers/FootLink'
-import {VisibleFilters} from './../../reducers/actions'
-import {Flex,Button} from 'antd-mobile'
+// import AddTodo from './../../reducers/containers/AddTodo'
+// import VisibleTodoList from './../../reducers/containers/VisibleTodoList'
+// import FooterLink from './../../reducers/containers/FootLink'
+// import {VisibleFilters} from './../../reducers/actions'
+import {Flex} from 'antd-mobile'
 
 export default class member extends Component{
     constructor(props){
@@ -33,7 +33,7 @@ export default class member extends Component{
                 browserHistory.push('/login');
             }
         })
-    }
+    };
     render (){
         let {member,default_img_url,images} = this.state;
         let userLogin = null,logout = null,avatar = null;

@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import PropTypes from 'prop-types'
 
-export default class Link extends Component{
+class Link extends Component{
     constructor(props){
         super(props)
     }
@@ -16,4 +16,5 @@ Link.propTypes = {
     onclick:PropTypes.func.isRequired,
     children:PropTypes.node.isRequired,
     active:PropTypes.bool.isRequired
-}
+};
+export default Link;
