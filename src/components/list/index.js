@@ -17,13 +17,13 @@ class list extends Component {
     }
     render(){
         const {images} = this.state;
-        const {data_list,default_img_url,gotoPage} = this.props;
-        return <div className={styles.list+' clearFix'} ref='scroller'>
+        const {data_list,default_img_url,gotoProduct} = this.props;
+        return <div className={styles.list+' clearFix'}>
             {data_list.map((item,ind) => {
                 item.product.buy_price = util.price(item.product.buy_price);
                 item.product.mktprice = util.price(item.product.mktprice);
                 return (
-                    <div className={styles.left} key={ind} onClick={gotoPage.bind(this,item.product.product_id)}>
+                    <div className={styles.left} key={ind} onClick={gotoProduct.bind(this,item.product.product_id)}>
                     <div className={styles['img-box']}>
                         <img className={styles.img} src={images[item.product.image_id+'_m']?images[item.product.image_id+'_m']:default_img_url} onLoad={util.lazyLoad.bind(this,item.product.image_id,'m')} alt={item.product.name}/>
                         <span className={images[item.product.image_id+'_m']?styles['img-back'] +' '+ styles.active:styles['img-back']}></span>

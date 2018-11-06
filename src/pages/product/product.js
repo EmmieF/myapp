@@ -23,7 +23,7 @@ class product extends Component{
     }
     render(){
         const {} = this.state;
-        const { default_img_url } = this.props.data;
+        const { default_img_url } = this.props;
         return <div className={styles['product']}>
             <Header headername="商品详情"/>
         </div>

@@ -67,7 +67,7 @@ class cart extends Component{
     }
     render (){
         let {headername,cartDate,images} = this.state;
-        let {default_img_url} = this.props.data;
+        let {default_img_url} = this.props;
         let content = null;
         if(!cartDate){
             content = <div className={styles.empty}>加载中...</div>;

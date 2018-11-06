@@ -38,7 +38,7 @@ class detail extends Component{
     }
     render(){
         const {order,status_kvmap,images,payapp} = this.state;
-        const {default_img_url} = this.props.data;
+        const {default_img_url} = this.props;
         let detail_head = null;
         let detail_item = null, detail_inf = null;
         if(order){

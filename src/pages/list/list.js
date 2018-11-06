@@ -2,8 +2,9 @@ import React,{Component} from 'react';
 import {browserHistory} from 'react-router'
 import utils from './../../static/utils';
 import List from './../../components/list/index'
-import {SearchBar} from 'bee-mobile'
+import {SearchBar,PullToRefresh, Toast} from 'antd-mobile'
 import {HOC} from "../../HOC"
+import styles from './list.scss'
 
 let loading_more = false;
 const load_list = function(){
@@ -12,7 +13,9 @@ const load_list = function(){
     _this.setState({
         is_view_load:true
     });
+    Toast.loading('努力加载中',0);
     utils._fetch('/m/list.html',{method:'get',data:_this.state.params},function (res) {
+        Toast.hide();
         loading_more = false;
         _this.setState({
             is_view_load:false
@@ -21,8 +24,10 @@ const load_list = function(){
             if(_this.state.params.page > 1){
                 res.data_list = [..._this.state.data_list,...res.data_list];
             }
-            _this.setState(res);
+        }else {
+            res.data_list = [];
         }
+        _this.setState(res);
     });
 };
 
@@ -31,11 +36,9 @@ class list extends Component{
         super(props);
         let keyword = this.props.location.query.keyword;
         this.state = {
-            searchSty:{paddingLeft:15,paddingRight:15,position:'fixed',left:0,top:0,width:'100%',zIndex:99,boxSizing:'border-box',
-                backgroundColor:'#FFF'},
+            searchSty:{paddingLeft:15,paddingRight:15,position:'fixed',left:0,top:0,width:'100%',zIndex:99,boxSizing:'border-box'},
             pagestyle:{paddingTop:54,position:'absolute',left:0,top:0,height:'100%',width:'100%',overflowY:'scroll',boxSizing:'border-box'},
-            defaultValue:keyword,
-            load_sty:{textAlign:'center',lineHeight:'40px'},
+            searchVal:keyword,
             is_view_load:false,
             params:{
                 page:1,
@@ -46,11 +49,13 @@ class list extends Component{
                 current:1,
                 total:0
             },
+            refreshing:false,
+            height: document.documentElement.clientHeight,
         };
-        this.handlerCancel = this.handlerCancel.bind(this);
-        this.handlerSubmit = this.handlerSubmit.bind(this);
-        this.handler_change = this.handler_change.bind(this);
-        // this.gotoPage = this.gotoPage.bind(this);
+        this.hand_search_submit = this.hand_search_submit.bind(this);
+        this.hand_search_change = this.hand_search_change.bind(this);
+        this.hand_search_cancel = this.hand_search_cancel.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
     }
     componentWillMount(){
         load_list.call(this);
@@ -66,10 +71,10 @@ class list extends Component{
     }
     handleScroll(event){
         let params = this.state.params;
-        const clientHeight = event.target.clientHeight;
-        const scrollHeight = event.target.scrollHeight;
-        const scrollTop = event.target.scrollTop;
-        if(scrollTop + clientHeight >= scrollHeight-10){
+        // const clientHeight = event.target.clientHeight;
+        // const scrollHeight = event.target.scrollHeight;
+        // const scrollTop = event.target.scrollTop;
+        // if(scrollTop + clientHeight >= scrollHeight-10){
             if(loading_more || (this.state.pager && params.page === parseInt(this.state.pager.total,0))){
                 return;
             }
@@ -78,33 +83,32 @@ class list extends Component{
                 params
             });
             load_list.call(this);
-        }
+        // }
     }
-    handler_change(event){
-        this.setState({defaultValue:event})
+    hand_search_cancel(){
+        this.setState({searchVal:''})
     }
-    handlerCancel(){
-        this.setState({defaultValue:''})
+    hand_search_change(val){
+        this.setState({searchVal:val})
     }
-    handlerSubmit(event){
+    hand_search_submit(e){
         let params = this.state.params;
-        params.keyword = event;
+        params.keyword = e;
         params.page = 1;
         this.setState({params});
         load_list.call(this);
     }
-    gotoPage(product_id,e){
-        e.stopPropagation();
-        browserHistory.push('/product?product_id='+product_id);
-    }
     render(){
-        return <div style={this.state.pagestyle} ref="scroller">
-            <SearchBar style={this.state.searchSty} value={this.state.defaultValue} defaultValue={this.state.defaultValue} placeholder="搜你想搜" cancelText="取消"
-                       onCancel={this.handlerCancel} onChange={this.handler_change} onSubmit={this.handlerSubmit}>
-            </SearchBar>
-            <List params={this.state.params} data_list={this.state.data_list} {...this.props.data} gotoPage={this.gotoPage}/>
-            {this.state.is_view_load?<div style={this.state.load_sty}>加载中...</div>:''}
-            {this.state.pager.current === this.state.pager.total?<div style={this.state.load_sty}>加载完了~</div>:''}
+        const {searchSty,searchVal,params,data_list,is_view_load,pager} = this.state;
+        return <div className={styles['list']}>
+            <SearchBar defaultValue='' style={searchSty} placeholder='搜你想搜' onSubmit={this.hand_search_submit} onCancel={this.hand_search_cancel}
+                       value={searchVal} cancelText='取消' onChange={this.hand_search_change} />
+            <PullToRefresh style={{paddingTop:44}} direction='up' refreshing={this.state.refreshing}
+                           onRefresh={this.handleScroll} distanceToRefresh={60}>
+                <List params={params} data_list={data_list} {...this.props}/>
+                {/*{is_view_load?<div className={styles['load_sty']}>加载中...</div>:''}*/}
+                {!is_view_load && pager.current === pager.total?<div className={styles['load_sty']}>加载完了~</div>:''}
+            </PullToRefresh>
         </div>
     }
 }

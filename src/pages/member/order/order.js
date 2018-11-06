@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
-import { Flex, Toast } from 'antd-mobile'
+import { Flex, Toast, PullToRefresh } from 'antd-mobile'
 import Header from './../../../components/header/header'
 import util from "../../../static/utils"
 import { HOC } from './../../../HOC'
@@ -44,7 +44,6 @@ class order extends Component{
         super(props);
         this.state = {
             headername:'我的订单',
-            pagestyle:{position:'absolute',left:0,top:0,height:'100%',width:'100%',overflowY:'scroll',boxSizing:'border-box'},
             order_list:true,
             order_items_group:null,
             images:{},
@@ -59,8 +58,9 @@ class order extends Component{
                 pay_status: ['未支付', '已付款', '已付款至到担保方', '部分付款', '部分退款', '全额退款'],
                 ship_status: ['未发货', '已发货', '部分发货', '部分退货', '已退货','已确认收货'],
             },
+            refreshing:false
         };
-        // this.gotoPage = this.gotoPage.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
     }
     componentWillMount(){
         load_list.call(this,1);
@@ -78,15 +78,15 @@ class order extends Component{
         });
     }
     handleScroll(event){
-        const clientHeight = event.target.clientHeight;
-        const scrollHeight = event.target.scrollHeight;
-        const scrollTop = event.target.scrollTop;
-        if(scrollTop + clientHeight >= scrollHeight-10){
+        // const clientHeight = event.target.clientHeight;
+        // const scrollHeight = event.target.scrollHeight;
+        // const scrollTop = event.target.scrollTop;
+        // if(scrollTop + clientHeight >= scrollHeight-10){
             if(loading_more || (this.state.pager && parseInt(this.state.pager.current,0) === parseInt(this.state.pager.total,0))){
                 return;
             }
             load_list.call(this,parseInt(this.state.pager.current,0)+1);
-        }
+        // }
     }
     gotoPage(order_id,e){
         e.stopPropagation();
@@ -95,7 +95,7 @@ class order extends Component{
     }
     render(){
         const {headername,order_list,order_items_group,pager,images,pagestyle,order_type,order_type_arr,status_kvmap} = this.state;
-        const {default_img_url} = this.props.data;
+        const {default_img_url} = this.props;
         let content = null;
         if(order_list && order_list.length > 0){
             content = order_list.map((item,index)=>{
@@ -131,7 +131,7 @@ class order extends Component{
         }else if(!order_list){
             content = <div className={styles['empty']}>暂无数据</div>
         }
-        return <div style={pagestyle} className={styles['order']} ref="scroller">
+        return <div className={styles['order']}>
             <Flex className={styles['order-header']}>
             {order_type_arr.map((item,index)=>{
                 return <Flex.Item onClick={this.orderType_handle.bind(this,item.type)} className={order_type===item.type?styles['active']:''} key={index}>
@@ -140,9 +140,10 @@ class order extends Component{
             })}
             </Flex>
             <Header headername={headername} />
-            <div className={styles.list}>
+            <PullToRefresh className={styles.list} direction='up' refreshing={this.state.refreshing}
+                           onRefresh={this.handleScroll} distanceToRefresh={60}>
                 {order_list && order_list.length > 0? <ul>{content}</ul>:content}
-            </div>
+            </PullToRefresh>
         </div>
     }
 }
