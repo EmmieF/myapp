@@ -50,7 +50,7 @@ const _params = function (data) {
     filter = filter.slice(1);
     return filter;
 };
-const _fetch = function (url,{method='GET',data = {}},callback=()=>{}) {
+const _fetch = function (url,{method = 'GET',data = {}},callback = ()=>{}) {
     let fetchOptions;
     let headers = {
         'Accept':'application/json',
@@ -198,7 +198,7 @@ const lazyLoad = function(image_id,image_size='o'){
             // console.log(_this.state.images, '$$$$$');
         })
     },200);
-}
+};
 export default {
     _fetch,
     _axios,

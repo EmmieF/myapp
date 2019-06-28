@@ -4,7 +4,7 @@ import Footer from './../../components/footer/footer'
 import List from './../../components/list/index'
 import util from './../../static/utils'
 import {HOC} from './../../HOC'
-import { Carousel,SearchBar,PullToRefresh, Toast } from 'antd-mobile'
+import { Carousel, SearchBar, PullToRefresh, Toast } from 'antd-mobile'
 import {browserHistory} from 'react-router'
 
 let loading_more = false;

@@ -9,22 +9,17 @@ import CartIcon from './../../assion/images/tabbar/cart.png'
 import CartFillIcon from './../../assion/images/tabbar/cart_active.png'
 
 export default class footer extends Component {
-    pathnamearr=[
-        '/index','cart','me'
-    ];
     constructor(props){
         super(props);
         this.state = {
             pathIndex:0,
+            pathnamearr:['/index','cart','me']
         }
     }
     componentDidMount(){
-        // console.log(this,'footer');
         this.setState({
-            pathIndex:this.pathnamearr.indexOf(this.props.pathname)
+            pathIndex:this.state.pathnamearr.indexOf(this.props.pathname)
         })
-    }
-    componentWillUnmount(){
     }
     render (){
         return <footer className={styles.footerEle}>

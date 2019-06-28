@@ -10,10 +10,6 @@ class list extends Component {
             color:'#FC4773',
             images:{}
         };
-        this.lazyLoad = this.lazyLoad.bind(this);
-    }
-    lazyLoad(image_id,image_size='o'){
-        util.lazyLoad(image_id,image_size);
     }
     render(){
         const {images} = this.state;
